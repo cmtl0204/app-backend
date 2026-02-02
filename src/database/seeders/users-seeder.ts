@@ -43,7 +43,7 @@ export class UsersSeeder {
     const users = this.userRepository.create({
       birthdate: faker.date.birthdate(),
       cellPhone: '0987654321',
-      identification: '1234567890001',
+      identification: 'admin',
       email: 'admin@admin.com',
       lastname: 'Perez',
       name: 'Admin',
@@ -52,7 +52,7 @@ export class UsersSeeder {
       emailVerifiedAt: new Date(),
       personalEmail: faker.internet.email(),
       roles: roles,
-      username: '1234567890001',
+      username: 'admin',
     });
 
     await this.userRepository.save(users);
