@@ -277,7 +277,7 @@ export class AuthService {
     }
 
     const transactionalCode = await this.transactionalCodeRepository.findOne({
-      where: { requester: user.username },
+      where: { requester: user.identification },
       order: { createdAt: 'DESC' },
     });
 
