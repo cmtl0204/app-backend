@@ -52,9 +52,9 @@ export class MenusSeeder {
     const menusAll = (await this.menusService.findAll()).data;
 
     if (Array.isArray(menusAll)) {
-      const role = await this.rolesService.findByCode(RoleEnum.ADMIN);
+      const role = await this.rolesService.findByCode(RoleEnum.admin);
 
-      role.menus = menusAll.filter((menu) => menu?.code === RoleEnum.ADMIN) as MenuEntity[];
+      role.menus = menusAll.filter((menu) => menu?.code === RoleEnum.admin) as MenuEntity[];
       await this.rolesService.createMenus(role);
     }
   }

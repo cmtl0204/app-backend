@@ -16,7 +16,7 @@ export class DpaService {
   ) {}
 
   async findCache(): Promise<DpaEntity[]> {
-    let items = (await this.cacheManager.get(CacheEnum.DPA)) as DpaEntity[];
+    let items = (await this.cacheManager.get(CacheEnum.dpa)) as DpaEntity[];
 
     if (items === null || items === undefined || items.length === 0) {
       items = await this.repository.find({
@@ -24,7 +24,7 @@ export class DpaService {
         order: { name: 'asc' },
       });
 
-      await this.cacheManager.set(CacheEnum.DPA, items);
+      await this.cacheManager.set(CacheEnum.dpa, items);
     }
 
     return items;
@@ -36,7 +36,7 @@ export class DpaService {
       order: { name: 'asc' },
     });
 
-    await this.cacheManager.set(CacheEnum.DPA, items);
+    await this.cacheManager.set(CacheEnum.dpa, items);
 
     return items;
   }

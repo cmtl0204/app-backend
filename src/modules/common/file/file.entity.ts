@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -13,30 +14,30 @@ import { UserEntity } from '@auth/entities';
 
 @Entity('files', { schema: 'common' })
 export class FileEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @CreateDateColumn({
     name: 'created_at',
-    type: 'timestamp',
+    type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
-    comment: 'Fecha de creacion de la carrera',
+    comment: 'Fecha de creacion',
   })
   createdAt: Date;
 
   @UpdateDateColumn({
     name: 'updated_at',
-    type: 'timestamp',
+    type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
-    comment: 'Fecha de actualizacion de la carrera',
+    comment: 'Fecha de actualizacion',
   })
   updatedAt: Date;
 
   @DeleteDateColumn({
     name: 'deleted_at',
-    type: 'timestamp',
+    type: 'timestamptz',
     nullable: true,
-    comment: 'Fecha de eliminacion de la carrera',
+    comment: 'Fecha de eliminacion',
   })
   deletedAt: Date;
 
@@ -48,12 +49,14 @@ export class FileEntity {
   })
   enabled: boolean;
 
+  @Index()
   @Column({
     name: 'model_id',
-    type: 'varchar',
+    type: 'uuid',
+    nullable: true,
     comment: 'Foreign Key de cualquier otra entidad',
   })
-  modelId: string;
+  modelId: string | null;
 
   /** Foreign Key **/
   @ManyToOne(() => CatalogueEntity, {
@@ -61,26 +64,28 @@ export class FileEntity {
   })
   @JoinColumn({ name: 'type_id' })
   type: CatalogueEntity;
+  @Index()
   @Column({
     type: 'uuid',
     name: 'type_id',
     nullable: true,
     comment: 'Tipo de documento',
   })
-  typeId: string;
+  typeId: string | null;
 
   @ManyToOne(() => UserEntity, {
     nullable: true,
   })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
+  @Index()
   @Column({
     type: 'uuid',
     name: 'user_id',
     nullable: true,
     comment: 'user',
   })
-  userId: string;
+  userId: string | null;
 
   /** Columns **/
   @Column({
@@ -94,10 +99,11 @@ export class FileEntity {
   @Column({
     name: 'extension',
     type: 'varchar',
-    comment: 'Extension ex. .pdf, .xlsx',
+    comment: 'Extension ex.: .pdf, .xlsx',
   })
   extension: string;
 
+  @Index({ unique: true })
   @Column({
     name: 'file_name',
     type: 'varchar',
@@ -120,9 +126,24 @@ export class FileEntity {
   path: string;
 
   @Column({
+    name: 'mime_type',
+    type: 'varchar',
+    comment: '',
+  })
+  mimeType: string;
+
+  @Column({
     name: 'size',
-    type: 'float',
+    type: 'bigint',
     comment: 'Size file in bytes',
   })
   size: number;
+
+  @Column({
+    name: 'id_temp',
+    type: 'bigint',
+    nullable: true,
+    comment: 'Codigo de la tabla migrada',
+  })
+  idTemp: number;
 }

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigType } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MulterModule } from '@nestjs/platform-express';
@@ -12,8 +12,10 @@ import { AuditModule } from '@modules/audit/audit.module';
 import { ReportsModule } from '@modules/reports/reports.module';
 import { ImportsModule } from '@modules/imports/imports.module';
 import { CoreModule } from '@modules/core/core.module';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { JoiValidationSchema } from './config/joi.validation';
+import { BullModule } from '@nestjs/bullmq';
+import { ResponseHttpInterceptor } from '@utils/interceptors';
 
 @Module({
   imports: [
@@ -32,6 +34,16 @@ import { JoiValidationSchema } from './config/joi.validation';
         },
       ],
     }),
+    BullModule.forRootAsync({
+      inject: [envConfig.KEY],
+      useFactory: (configService: ConfigType<typeof envConfig>) => ({
+        connection: {
+          host: configService.redis.host,
+          port: configService.redis.port,
+          password: configService.redis.password,
+        },
+      }),
+    }),
     MulterModule.register({ dest: './uploads' }),
     HttpModule,
     AuditModule,
@@ -46,6 +58,10 @@ import { JoiValidationSchema } from './config/joi.validation';
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ResponseHttpInterceptor,
     },
     AppService,
   ],

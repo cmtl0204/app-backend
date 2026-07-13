@@ -18,10 +18,13 @@ import { MenusService } from '@auth/services/menus.service';
 import { coreProviders } from '@modules/core/core.provider';
 import { HttpModule } from '@nestjs/axios';
 import { RefreshJwtStrategy } from '@auth/strategies/refresh-jwt.strategy';
+import { CataloguesService } from '@modules/common/catalogue/catalogue.service';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Global()
 @Module({
   imports: [
+    CacheModule.register(),
     HttpModule,
     DatabaseModule,
     MailModule,
@@ -30,9 +33,9 @@ import { RefreshJwtStrategy } from '@auth/strategies/refresh-jwt.strategy';
       inject: [envConfig.KEY],
       useFactory: (configService: ConfigType<typeof envConfig>) => {
         return {
-          secret: configService.jwtSecret,
+          secret: configService.jwt.secret,
           signOptions: {
-            expiresIn: configService.jwtExpires,
+            expiresIn: configService.jwt.expires,
           },
         };
       },
@@ -56,6 +59,7 @@ import { RefreshJwtStrategy } from '@auth/strategies/refresh-jwt.strategy';
     RolesService,
     UsersService,
     MenusService,
+    CataloguesService,
   ],
   exports: [...authProviders, UsersService, RolesService, MenusService, JwtModule, PassportModule],
 })

@@ -17,8 +17,15 @@ import {
   UserEntity,
 } from '@auth/entities';
 import { PayloadTokenInterface, TokenInterface } from 'src/modules/auth/interfaces';
-import { AuthRepositoryEnum, ConfigEnum, MailSubjectEnum, MailTemplateEnum } from '@utils/enums';
-import { PasswordChangedDto, SignInDto, SignUpExternalDto } from '@auth/dto';
+import {
+  AuthRepositoryEnum,
+  CatalogueTypeEnum,
+  CatalogueUsersIdentificationTypeEnum,
+  ConfigEnum,
+  MailSubjectEnum,
+  MailTemplateEnum,
+} from '@utils/enums';
+import { PasswordChangedDto, SignInDto, SignUpExternalDto, TermsDto } from '@auth/dto';
 import { ServiceResponseHttpInterface } from '@utils/interfaces';
 import { MailService } from '@modules/common/mail/mail.service';
 import { envConfig } from '@config';
@@ -26,7 +33,6 @@ import { ConfigType } from '@nestjs/config';
 import { MailDataInterface } from '@modules/common/mail/interfaces/mail-data.interface';
 import { lastValueFrom } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
-import ms from 'ms';
 import { SignInInterface } from '@auth/interfaces/sign-in.interface';
 import { ErrorCodeEnum, MessageAuthEnum, RoleEnum } from '@auth/enums';
 import { SecurityQuestionEntity } from '@auth/entities/security-question.entity';
@@ -34,6 +40,7 @@ import { CreateSecurityQuestionDto } from '@auth/dto/security-questions/create-s
 import { EmailResetSecurityQuestionDto } from '@auth/dto/security-questions/email-reset-security-question.dto';
 import { createHash, randomUUID } from 'node:crypto';
 import { PasswordResetDto } from '@auth/dto/auth/password-reset.dto';
+import { CataloguesService } from '@modules/common/catalogue/catalogue.service';
 
 @Injectable()
 export class AuthService {
@@ -51,6 +58,7 @@ export class AuthService {
     @Inject(envConfig.KEY) private configService: ConfigType<typeof envConfig>,
     @Inject(ConfigEnum.PG_DATA_SOURCE)
     private readonly dataSource: DataSource,
+    private readonly cataloguesService: CataloguesService,
     private jwtService: JwtService,
     private readonly mailService: MailService,
     private readonly httpService: HttpService,
@@ -63,7 +71,10 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new NotFoundException('Usuario no encontrado para cambio de contraseña');
+      throw new NotFoundException({
+        error: ErrorCodeEnum.NOT_FOUND,
+        message: 'Usuario no encontrado para cambio de contraseña',
+      });
     }
 
     if (payload.password !== payload.passwordConfirm) {
@@ -92,6 +103,7 @@ export class AuthService {
     const user: UserEntity | null = await this.repository.findOne({
       select: {
         id: true,
+        hasDisability: true,
         identification: true,
         lastname: true,
         name: true,
@@ -100,14 +112,19 @@ export class AuthService {
         suspendedAt: true,
         emailVerifiedAt: true,
         username: true,
+        birthdate: true,
         securityQuestionAcceptedAt: true,
         passwordChanged: true,
+        termsAcceptedAt: true,
       },
       where: {
         username: payload.username,
       },
       relations: {
         roles: true,
+        nationality: true,
+        bloodType: true,
+        sex: true,
       },
     });
 
@@ -137,11 +154,21 @@ export class AuthService {
         message: 'Aún no has verificado tu correo electrónico',
       });
 
-    if (!(await this.checkPassword(payload.password, user))) {
-      throw new UnauthorizedException({
-        error: ErrorCodeEnum.INVALID_PASSWORD,
-        message: `Usuario y/o contraseña no válidos, ${user.maxAttempts - 1} intentos restantes`,
-      });
+    if (payload.username.includes('@produccion.gob.ec')) {
+      const response = await this.signInLDAP(payload);
+      if (!response) {
+        throw new UnauthorizedException({
+          error: ErrorCodeEnum.INVALID_PASSWORD,
+          message: `Usuario y/o contraseña no válidos, ${user.maxAttempts - 1} intentos restantes`,
+        });
+      }
+    } else {
+      if (!(await this.checkPassword(payload.password, user))) {
+        throw new UnauthorizedException({
+          error: ErrorCodeEnum.INVALID_PASSWORD,
+          message: `Usuario y/o contraseña no válidos, ${user.maxAttempts - 1} intentos restantes`,
+        });
+      }
     }
 
     const { password, suspendedAt, maxAttempts, ...userRest } = user;
@@ -162,7 +189,7 @@ export class AuthService {
   }
 
   async signInLDAP(payload: SignInDto): Promise<boolean> {
-    const url = `${this.configService.urlLDAP}/${payload.username.split('@')[0]}/${payload.password}`;
+    const url = `${this.configService.externalApis.urlLDAP}/${payload.username.split('@')[0]}/${payload.password}`;
 
     const response = await lastValueFrom(this.httpService.get(url));
 
@@ -170,7 +197,25 @@ export class AuthService {
   }
 
   async signUpExternal(payload: SignUpExternalDto): Promise<UserEntity> {
-    const role = await this.roleRepository.findOneBy({ code: RoleEnum.CUSTOMER });
+    const user = await this.repository.findOne({
+      where: [{ identification: payload.identification }, { email: payload.email }],
+    });
+
+    if (user && user.identification === payload.identification) {
+      throw new BadRequestException({
+        error: 'El usuario ya existe',
+        message: 'Por favor ingrese otro RUC',
+      });
+    }
+
+    if (user && user.email === payload.email) {
+      throw new BadRequestException({
+        error: 'El correo ya se encuentra en uso',
+        message: 'Por favor ingrese otro correo',
+      });
+    }
+
+    const role = await this.roleRepository.findOneBy({ code: RoleEnum.student });
 
     if (payload.password !== payload.passwordConfirm) {
       throw new BadRequestException({
@@ -186,6 +231,12 @@ export class AuthService {
       }),
     );
 
+    const identificationType = (await this.cataloguesService.findCache()).find(
+      (item) =>
+        item.code === CatalogueUsersIdentificationTypeEnum.ruc &&
+        item.type === CatalogueTypeEnum.users_identification_type,
+    );
+
     const entity = this.repository.create({
       ...payload,
       passwordChanged: true,
@@ -193,10 +244,30 @@ export class AuthService {
       termsAcceptedAt: new Date(),
       securityQuestionAcceptedAt: new Date(),
       roles: [role!],
+      identificationTypeId: identificationType?.id,
       securityQuestions,
     });
 
-    return await this.repository.save(entity);
+    const userSaved = await this.repository.save(entity);
+
+    return userSaved;
+  }
+
+  async acceptTerms(id: string, payload: TermsDto): Promise<boolean> {
+    const user = await this.repository.findOne({
+      where: { id },
+      select: { id: true, termsAcceptedAt: true },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Usuario no encontrado para cambio de contraseña');
+    }
+
+    user.termsAcceptedAt = payload.termsAcceptedAt ? new Date() : null;
+
+    await this.repository.save(user);
+
+    return true;
   }
 
   async refreshToken(user: UserEntity): Promise<TokenInterface> {
@@ -221,7 +292,7 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException({
         error: MessageAuthEnum.NOT_FOUND,
-        message: 'Usuario no encontrado, intente de nuevo',
+        message: 'Usuario no encontrado, intenta de nuevo',
       });
     }
 
@@ -240,7 +311,7 @@ export class AuthService {
         throw new BadRequestException({
           data: { remainingSeconds },
           error: ErrorCodeEnum.REMAINING_TOKEN,
-          message: `Ya has generado un código recientemente. Por favor espera ${remainingSeconds} segundos.`,
+          message: `Por favor espera ${remainingSeconds} segundos.`,
         });
       }
     }
@@ -281,16 +352,18 @@ export class AuthService {
       order: { createdAt: 'DESC' },
     });
 
+    console.log(transactionalCode);
     if (transactionalCode) {
       const cooldownTime = addMinutes(transactionalCode.createdAt, 1);
-
+      console.log('cooldownTime password reset', cooldownTime);
       if (isBefore(new Date(), cooldownTime)) {
         const remainingSeconds = differenceInSeconds(cooldownTime, new Date());
 
+        console.log(remainingSeconds);
         throw new BadRequestException({
           data: { remainingSeconds },
           error: ErrorCodeEnum.REMAINING_TOKEN,
-          message: `Ya has generado un código recientemente. Por favor espera ${remainingSeconds} segundos antes de solicitar uno nuevo.`,
+          message: `Por favor espera ${remainingSeconds} segundos antes de solicitar uno nuevo.`,
         });
       }
     }
@@ -325,14 +398,14 @@ export class AuthService {
 
     if (transactionalCode) {
       const cooldownTime = addMinutes(transactionalCode.createdAt, 1);
-
+      console.log('cooldownTime signup', cooldownTime);
       if (isBefore(new Date(), cooldownTime)) {
         const remainingSeconds = differenceInSeconds(cooldownTime, new Date());
 
         throw new BadRequestException({
           data: { remainingSeconds },
           error: ErrorCodeEnum.REMAINING_TOKEN,
-          message: `Ya has generado un código recientemente. Por favor espera ${remainingSeconds} segundos antes de solicitar uno nuevo.`,
+          message: `Por favor espera ${remainingSeconds} segundos antes de solicitar uno nuevo.`,
         });
       }
     }
@@ -368,14 +441,14 @@ export class AuthService {
 
     if (!transactionalCode) {
       throw new BadRequestException({
-        message: 'Código Transaccional no válido',
+        message: 'Código de seguridad no válido',
         error: MessageAuthEnum.TRANSACTIONAL_CODE_INVALID,
       });
     }
 
     if (transactionalCode.requester.toLowerCase() !== requester.toLowerCase()) {
       throw new BadRequestException({
-        message: 'El usuario no corresponde al código transaccional generado',
+        message: 'El usuario no corresponde al código seguridad generado',
         error: MessageAuthEnum.TRANSACTIONAL_CODE_NOT_MATCH,
       });
     }
@@ -412,7 +485,7 @@ export class AuthService {
 
     if (!user) {
       throw new NotFoundException({
-        message: 'Usuario no encontrado para resetear contraseña, intente de nuevo',
+        message: 'Usuario no encontrado para resetear contraseña, intenta de nuevo',
         error: MessageAuthEnum.NOT_FOUND,
       });
     }
@@ -442,6 +515,13 @@ export class AuthService {
     });
   }
 
+  async verifyExistEmail(email: string): Promise<UserEntity | null> {
+    return await this.repository.findOne({
+      where: { email },
+      select: { id: true },
+    });
+  }
+
   async verifyUpdatedUser(identification: string, userId: string): Promise<UserEntity | null> {
     return await this.repository.findOne({
       where: { identification, id: Not(userId) },
@@ -467,7 +547,10 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new NotFoundException('Registro no encontrado');
+      throw new NotFoundException({
+        error: 'Registro no encontrado',
+        message: 'Intenta de nuevo',
+      });
     }
 
     return {
@@ -621,6 +704,10 @@ export class AuthService {
         securityQuestionAcceptedAt: new Date(),
       });
 
+      if (!userToUpdate) {
+        throw new NotFoundException(`Usuario no encontrado`);
+      }
+
       await manager.save(userToUpdate);
 
       return await manager.save(newQuestions);
@@ -636,8 +723,8 @@ export class AuthService {
     const accessToken = this.jwtService.sign(payload);
 
     const refreshToken = this.jwtService.sign(payload, {
-      secret: this.configService.jwtRefreshSecret,
-      expiresIn: ms(this.configService.jwtRefreshExpires ?? '7d'),
+      secret: this.configService.jwt.refreshSecret,
+      expiresIn: this.configService.jwt.refreshExpires,
     });
 
     return { accessToken, refreshToken };

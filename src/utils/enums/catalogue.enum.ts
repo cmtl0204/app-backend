@@ -29,3 +29,12 @@ export enum CatalogueMaritalStatusEnum {
   divorced = 'divorced',
   free_union = 'free_union',
 }
+
+export enum CatalogueUsersIdentificationTypeEnum {
+  ruc = 'ruc',
+}
+
+export enum CatalogueUsersSexEnum {
+  male = 'male',
+  female = 'female',
+}

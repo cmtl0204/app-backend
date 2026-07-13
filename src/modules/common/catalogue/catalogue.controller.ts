@@ -19,7 +19,7 @@ import { PaginationDto } from '@utils/pagination';
 import { RoleEnum } from '@auth/enums';
 
 @ApiTags('Catalogues')
-@Auth(RoleEnum.ADMIN)
+@Auth(RoleEnum.admin)
 @Controller('common/catalogues')
 export class CatalogueController {
   constructor(private catalogueService: CataloguesService) {}
@@ -107,6 +107,31 @@ export class CatalogueController {
       data: serviceResponse,
       message: `Registro Eliminado`,
       title: `Eliminado`,
+    };
+  }
+
+  @PublicRoute()
+  @ApiOperation({ summary: 'Find Model Catalogues' })
+  @Get('model-catalogues/cache')
+  async findCacheModelCatalogues(): Promise<ResponseHttpInterface> {
+    const serviceResponse = await this.catalogueService.findCacheModelCatalogues();
+
+    return {
+      data: serviceResponse,
+      message: `Model Catalogues`,
+      title: `Find`,
+    };
+  }
+
+  @ApiOperation({ summary: 'Load Cache' })
+  @Patch('model-catalogues/cache')
+  async loadCacheModelCatalogues(): Promise<ResponseHttpInterface> {
+    const serviceResponse = await this.catalogueService.loadCacheModelCatalogues();
+
+    return {
+      data: serviceResponse,
+      message: `Cache Model Catalogues Cargada`,
+      title: `Cargada`,
     };
   }
 }

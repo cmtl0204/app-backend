@@ -12,7 +12,7 @@ import {
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PublicRoute, User } from '@auth/decorators';
 import { UserEntity } from '@auth/entities';
-import { PasswordChangedDto, SignInDto, SignUpExternalDto } from '@auth/dto';
+import { PasswordChangedDto, SignInDto, SignUpExternalDto, TermsDto } from '@auth/dto';
 import { ResponseHttpInterface } from '@utils/interfaces';
 import { AuthService } from '@auth/services/auth.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -172,6 +172,18 @@ export class AuthController {
   }
 
   @PublicRoute()
+  @Get(':email/email-exist')
+  async verifyExistEmail(@Param('email') email: string): Promise<ResponseHttpInterface> {
+    const serviceResponse = await this.authService.verifyExistEmail(email);
+
+    return {
+      data: serviceResponse,
+      message: `Existe Identificacion`,
+      title: 'Existe',
+    };
+  }
+
+  @PublicRoute()
   @Get(':identification/registered')
   async verifyRegisteredUser(
     @Param('identification') identification: string,
@@ -253,6 +265,20 @@ export class AuthController {
       data: serviceResponse,
       message: `Revise su correo asociado`,
       title: 'Solicitud Recibida',
+    };
+  }
+
+  @Patch('terms-conditions/accept')
+  async acceptTerms(
+    @User() user: UserEntity,
+    @Body() payload: TermsDto,
+  ): Promise<ResponseHttpInterface> {
+    const serviceResponse = await this.authService.acceptTerms(user.id, payload);
+
+    return {
+      data: serviceResponse,
+      message: `Existe Identificacion`,
+      title: 'Existe',
     };
   }
 }

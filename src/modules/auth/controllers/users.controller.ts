@@ -31,7 +31,7 @@ import { RoleEnum } from '@auth/enums';
 
 @ApiTags('Users')
 @Controller('auth/users')
-@Auth(RoleEnum.ADMIN)
+@Auth(RoleEnum.admin)
 export class UsersController {
   constructor(private readonly service: UsersService) {}
 
@@ -201,8 +201,8 @@ export class UsersController {
     };
   }
 
-  @ApiOperation({ summary: 'Update Additional Information' })
   @Auth()
+  @ApiOperation({ summary: 'Update Additional Information' })
   @Patch(':id/additional-information')
   async updateAdditionalInformation(
     @Param('id', ParseUUIDPipe) id: string,

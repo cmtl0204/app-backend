@@ -1,37 +1,107 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Equal, FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { FileEntity } from './file.entity';
-import { CommonRepositoryEnum, MessageEnum } from '@utils/enums';
+import { CommonRepositoryEnum } from '@utils/enums';
 import * as path from 'path';
-import { join } from 'path';
-import * as fs from 'fs';
 import { PaginationDto } from '@utils/pagination';
 import { ServiceResponseHttpInterface } from '@utils/interfaces';
-import { FilterFileDto } from './dto';
-import { IsArray } from 'class-validator';
+import { CreateFileDto, CreateProcessFileDto, FilterFileDto } from './dto';
+import { format } from 'date-fns';
+import { FileDownloadLogEntity } from '@modules/common/file/file-download-log.entity';
+import { UserEntity } from '@auth/entities';
+import { Request, Response } from 'express';
+import { BucketService } from '@modules/common/bucket/bucket.service';
 
 @Injectable()
 export class FileService {
   constructor(
     @Inject(CommonRepositoryEnum.FILE_REPOSITORY)
     private repository: Repository<FileEntity>,
+    @Inject(CommonRepositoryEnum.FILE_DOWNLOAD_LOG_REPOSITORY)
+    private fileDownloadLogRepository: Repository<FileDownloadLogEntity>,
+    private readonly bucketService: BucketService,
   ) {}
 
-  async uploadFile(file: Express.Multer.File, modelId: string, typeId: string) {
-    const filePath = `uploads/${new Date().getFullYear()}/${new Date().getMonth()}/${file.filename}`;
+  async uploadFile({ file, user, modelId, typeId, folder, manager }: CreateFileDto) {
+    const fileName = `${Date.now()}${path.extname(file.originalname)}`;
+    const filePath = `${folder}/${format(new Date(), 'yyyy/MM')}/${fileName}`;
+
+    const repository = manager ? manager.getRepository(FileEntity) : this.repository;
+
     const payload = {
       modelId,
-      fileName: file.filename,
+      userId: user?.id,
+      fileName,
+      name: file.originalname,
       extension: path.extname(file.originalname),
       originalName: file.originalname,
       path: filePath,
       size: file.size,
       typeId: typeId,
+      mimeType: file.mimetype,
     };
 
-    const newFile = this.repository.create(payload);
+    const newFile = repository.create(payload);
 
-    return await this.repository.save(newFile);
+    // await this.minioService.uploadFile({
+    //   filePath,
+    //   buffer: file.buffer,
+    //   size: file.size,
+    //   mimetype: file.mimetype,
+    // });
+
+    await this.bucketService.uploadFile({
+      filePath,
+      buffer: file.buffer,
+      mimetype: file.mimetype,
+    });
+
+    return await repository.save(newFile);
+  }
+
+  async uploadProcessFile({
+    file,
+    user,
+    modelId,
+    typeId,
+    activity,
+    manager,
+    ruc,
+  }: CreateProcessFileDto) {
+    const fileName = `${Date.now()}${path.extname(file.originalname)}`;
+    const filePath = `process/${ruc}/${activity}/${fileName}`;
+
+    const repository = manager ? manager.getRepository(FileEntity) : this.repository;
+
+    const payload = {
+      modelId,
+      userId: user?.id,
+      fileName,
+      name: file.originalname,
+      extension: path.extname(file.originalname),
+      originalName: file.originalname,
+      path: filePath,
+      size: file.size,
+      typeId: typeId,
+      mimeType: file.mimetype,
+    };
+
+    const newFile = repository.create(payload);
+
+    // await this.minioService.uploadFile({
+    //   filePath,
+    //   buffer: file.buffer,
+    //   size: file.size,
+    //   mimetype: file.mimetype,
+    // });
+
+    await this.bucketService.uploadFile({
+      filePath,
+      buffer: file.buffer,
+      mimetype: file.mimetype,
+    });
+
+    return await repository.save(newFile);
   }
 
   async uploadFiles(
@@ -74,7 +144,7 @@ export class FileService {
     return await Promise.all(saveOperations);
   }
 
-  async findOne(id: string): Promise<FileEntity> {
+  async findOne(id: number): Promise<FileEntity> {
     const entity = await this.repository.findOneBy({ id });
 
     if (!entity) {
@@ -84,16 +154,54 @@ export class FileService {
     return entity;
   }
 
-  async getPath(id: string): Promise<string> {
+  async findUrl(id: number, user: UserEntity, req: Request): Promise<string> {
     const file = await this.findOne(id);
 
-    const path = join(process.cwd(), 'storage/private', file?.path);
-
-    if (!fs.existsSync(path)) {
-      throw new NotFoundException('File not found');
+    if (!file) {
+      throw new NotFoundException();
     }
 
-    return path;
+    // const url = await this.minioService.generatePresignedUrl(file.path);
+    const url = await this.bucketService.generatePresignedUrl(file.path);
+
+    const fileDownloadLog = this.fileDownloadLogRepository.create({
+      file,
+      user,
+      ipAddress: req.ip,
+      userAgent: req.headers['user-agent'],
+    });
+
+    await this.fileDownloadLogRepository.save(fileDownloadLog);
+
+    return url;
+  }
+
+  async download(id: number, user: UserEntity, req: Request, res: Response) {
+    const file = await this.findOne(id);
+
+    if (!file) {
+      throw new NotFoundException();
+    }
+
+    const stream: any = await this.bucketService.getObject(file.path);
+
+    res.set({
+      'Content-Type': file.mimeType,
+      'Content-Disposition': `attachment; filename="${file.originalName}"`,
+      'Cache-Control': 'no-store',
+    });
+
+    const rawIp = (req.headers['x-forwarded-for'] as string) || req.socket.remoteAddress || '';
+    const cleanIp = rawIp.includes('::ffff:') ? rawIp.split('::ffff:')[1] : rawIp;
+
+    await this.fileDownloadLogRepository.save({
+      file,
+      user,
+      ipAddress: cleanIp === '::1' ? '127.0.0.1' : cleanIp,
+      userAgent: req.headers['user-agent'],
+    });
+
+    stream.pipe(res);
   }
 
   async findByModel(
@@ -149,20 +257,16 @@ export class FileService {
     };
   }
 
-  async remove(id: string): Promise<any> {
+  async remove(id: number): Promise<any> {
     const entity = await this.repository.findOneBy({ id });
 
     if (!entity) {
-      throw new NotFoundException(MessageEnum.NOT_FOUND);
+      throw new NotFoundException({
+        error: 'Registro no encontrado',
+        message: 'Registro no encontrado',
+      });
     }
 
-    if (entity?.fileName) {
-      try {
-        fs.unlinkSync(join(process.cwd(), 'storage/private', entity.path));
-        return await this.repository.softRemove(entity);
-      } catch (err) {
-        console.error('Something wrong happened removing the file', err);
-      }
-    }
+    return await this.repository.softRemove(entity);
   }
 }

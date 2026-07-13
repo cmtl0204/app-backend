@@ -16,18 +16,18 @@ export class RolesSeeder {
     const roles: CreateRoleDto[] = [];
     roles.push(
       {
-        code: RoleEnum.ADMIN,
+        code: RoleEnum.admin,
         name: 'Administrador',
         icon: FontAwesome.USER_GEAR_SOLID,
       },
       {
-        code: RoleEnum.OWNER,
-        name: 'Propietario',
+        code: RoleEnum.student,
+        name: 'Estudiante',
         icon: FontAwesome.BLACK_TIE_BRAND,
       },
       {
-        code: RoleEnum.CUSTOMER,
-        name: 'Cliente',
+        code: RoleEnum.teacher,
+        name: 'Docente',
         icon: FontAwesome.USER_SOLID,
       },
     );

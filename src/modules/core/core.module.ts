@@ -1,12 +1,20 @@
 import { Global, Module } from '@nestjs/common';
 import { coreProviders } from '@modules/core/core.provider';
 import { SharedCoreModule } from '@modules/core/shared-core/shared-core.module';
-import { OwnerModule } from '@modules/core/roles/owner/owner.module';
-import { CustomerModule } from '@modules/core/roles/customer/customer.module';
+import { StudentModule } from '@modules/core/roles/student/student.module';
+import { AcademicCoordinatorModule } from '@modules/core/roles/academic-coordinator/academic-coordinator.module';
+import { CareerCoordinatorModule } from '@modules/core/roles/career-coordinator/career-coordinator.module';
+import { TeacherModule } from '@modules/core/roles/teacher/teacher.module';
 
 @Global()
 @Module({
-  imports: [SharedCoreModule, OwnerModule, CustomerModule],
+  imports: [
+    SharedCoreModule,
+    StudentModule,
+    AcademicCoordinatorModule,
+    CareerCoordinatorModule,
+    TeacherModule,
+  ],
   providers: [...coreProviders],
 })
 export class CoreModule {}
