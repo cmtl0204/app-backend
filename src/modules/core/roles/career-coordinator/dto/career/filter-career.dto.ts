@@ -3,7 +3,7 @@ import { PaginationDto } from '@utils/pagination';
 import { IsIn, IsOptional } from 'class-validator';
 import { isInValidationOptions } from '@utils/dto-validation';
 
-const sortableFields = ['name', 'code', 'shortName'] as const;
+const sortableFields = ['code', 'shortName', 'resolutionNumber'] as const;
 
 export class FilterCareerDto extends PickType(PaginationDto, ['page', 'limit', 'order', 'search']) {
   @IsOptional()
