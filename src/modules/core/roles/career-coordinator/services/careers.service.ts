@@ -31,7 +31,8 @@ export class CareersService {
       params.order,
     );
 
-    QueryBuilderHelper.applyPagination(query, params.page, params.limit);
+    if (params.page && params.limit)
+      QueryBuilderHelper.applyPagination(query, params.page, params.limit);
 
     const [data, total] = await query.getManyAndCount();
 

@@ -1,19 +1,15 @@
-import { IsNotEmpty, IsOptional, IsPositive, IsString } from 'class-validator';
-import {
-  isNotEmptyValidationOptions,
-  isPositiveValidationOptions,
-  isStringValidationOptions,
-} from '../dto-validation';
-import { Transform, Type } from 'class-transformer';
+import { IsOptional, IsPositive, IsString } from 'class-validator';
+import { isPositiveValidationOptions, isStringValidationOptions } from '../dto-validation';
+import { Type } from 'class-transformer';
 
 export class PaginationDto {
   @Type(() => Number)
-  @IsNotEmpty(isNotEmptyValidationOptions())
+  @IsOptional()
   @IsPositive(isPositiveValidationOptions())
   limit: number;
 
   @Type(() => Number)
-  @IsNotEmpty(isNotEmptyValidationOptions())
+  @IsOptional()
   @IsPositive(isPositiveValidationOptions())
   page: number;
 
@@ -22,16 +18,8 @@ export class PaginationDto {
   search: string;
 
   @IsOptional()
-  @Transform(({ value }) => {
-    if (typeof value === 'string') return value.split(',');
-    if (Array.isArray(value)) return value.map(String);
-    return [];
-  })
-  relations?: string[];
-
-  @IsOptional()
   @IsString(isStringValidationOptions())
-  sort = 'name';
+  sort: string;
 
   @IsOptional()
   @IsString(isStringValidationOptions())
