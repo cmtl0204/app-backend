@@ -1,4 +1,5 @@
 import { ObjectLiteral, SelectQueryBuilder } from 'typeorm';
+import { BadRequestException } from '@nestjs/common';
 
 export class QueryBuilderHelper {
   static applySearch<T extends ObjectLiteral>(
@@ -22,11 +23,14 @@ export class QueryBuilderHelper {
     query: SelectQueryBuilder<T>,
     alias: string,
     fields: readonly string[],
-    sort = 'name',
+    sort: string,
     order: 'ASC' | 'DESC' = 'ASC',
   ): void {
     if (!fields.includes(sort)) {
-      sort = 'name';
+      throw new BadRequestException({
+        error: 'No se puede ordenar',
+        message: `No se puede ordenar por el campo '${sort}'.`,
+      });
     }
 
     query.orderBy(`${alias}.${sort}`, order);
