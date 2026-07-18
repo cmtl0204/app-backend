@@ -11,11 +11,11 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Auth, Roles } from '@auth/decorators';
-import { CareersService } from '@modules/core/roles/career-coordinator/services/careers.service';
-import { CreateCareerDto, UpdateCareerDto } from '@modules/core/roles/career-coordinator/dto';
+import { RoleEnum } from '@auth/enums';
 import { PaginationDto } from '@utils/pagination';
 import { ResponseHttpInterface } from '@utils/interfaces';
-import { RoleEnum } from '@auth/enums';
+import { CreateCareerDto, UpdateCareerDto } from '@modules/core/roles/career-coordinator/dto';
+import { CareersService } from '@modules/core/roles/career-coordinator/services/careers.service';
 
 @ApiTags('Careers')
 @Auth()

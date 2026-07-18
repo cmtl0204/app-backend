@@ -1,13 +1,12 @@
 import { ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Brackets, DataSource, Repository } from 'typeorm';
-import { CreateCareerDto, UpdateCareerDto } from '@modules/core/roles/career-coordinator/dto';
-import { CareerEntity, CareerToTeacherEntity, SubjectEntity } from '@modules/core/entities';
-import { AuthRepositoryEnum, ConfigEnum, MessageEnum } from '@utils/enums';
-import { CoreRepositoryEnum } from '@modules/core/shared-core/enums';
-import { ServiceResponseHttpInterface } from '@utils/interfaces';
 import { UserEntity } from '@auth/entities';
 import { PaginationDto } from '@utils/pagination';
+import { AuthRepositoryEnum, ConfigEnum, MessageEnum } from '@utils/enums';
+import { CreateCareerDto, UpdateCareerDto } from '@modules/core/roles/career-coordinator/dto';
+import { CareerEntity, CareerToTeacherEntity, SubjectEntity } from '@modules/core/entities';
 import { QueryBuilderHelper } from '@modules/core/shared-core/helpers';
+import { CoreRepositoryEnum } from '@modules/core/shared-core/enums';
 
 @Injectable()
 export class CareersService {
@@ -52,21 +51,6 @@ export class CareersService {
     }
 
     return entity;
-  }
-
-  async catalogue(): Promise<ServiceResponseHttpInterface> {
-    const response = await this.repository.findAndCount({
-      relations: { institution: true, modality: true, state: true, type: true },
-      take: 1000,
-    });
-
-    return {
-      pagination: {
-        totalItems: response[1],
-        limit: 1000,
-      },
-      data: response[0],
-    };
   }
 
   async create(payload: CreateCareerDto): Promise<CareerEntity> {
