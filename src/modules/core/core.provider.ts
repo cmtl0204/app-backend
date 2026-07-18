@@ -5,12 +5,12 @@ import { ConfigEnum } from '@utils/enums';
 
 export const coreProviders = [
   {
-    provide: CoreRepositoryEnum.student_repository,
+    provide: CoreRepositoryEnum.studentRepository,
     useFactory: (dataSource: DataSource) => dataSource.getRepository(StudentEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: CoreRepositoryEnum.career_repository,
+    provide: CoreRepositoryEnum.careerRepository,
     useFactory: (dataSource: DataSource) => dataSource.getRepository(CareerEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },

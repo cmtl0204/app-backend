@@ -44,10 +44,10 @@ export class SubjectEntity {
   isEnabled: boolean;
 
   /** Inverse Relationship **/
-  @OneToMany(() => SubjectCorequisiteEntity, subjectCorequisite => subjectCorequisite.subject)
+  @OneToMany(() => SubjectCorequisiteEntity, (entity) => entity.subject)
   subjectCorequisites: SubjectCorequisiteEntity[];
 
-  @OneToMany(() => SubjectPrerequisiteEntity, subjectPrerequisite => subjectPrerequisite.subject)
+  @OneToMany(() => SubjectPrerequisiteEntity, (entity) => entity.subject)
   subjectPrerequisites: SubjectPrerequisiteEntity[];
 
   /** Foreign Keys **/

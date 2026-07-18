@@ -8,12 +8,10 @@ import {
   ManyToMany,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import {
-  CareerParallelEntity,
   CareerToTeacherEntity,
   CatalogueEntity,
   InstitutionEntity,
@@ -96,9 +94,6 @@ export class CareerEntity {
     inverseJoinColumn: { name: 'user_id' },
   })
   users: UserEntity[];
-
-  @OneToMany(() => CareerParallelEntity, (workday) => workday.career)
-  parallels: CareerParallelEntity[];
 
   /** Foreign Keys **/
   @ManyToOne(() => InstitutionEntity)

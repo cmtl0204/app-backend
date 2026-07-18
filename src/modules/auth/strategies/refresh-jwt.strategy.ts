@@ -13,7 +13,7 @@ import { Request } from 'express';
 @Injectable()
 export class RefreshJwtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
   constructor(
-    @Inject(AuthRepositoryEnum.USER_REPOSITORY)
+    @Inject(AuthRepositoryEnum.userRepository)
     private readonly userRepository: Repository<UserEntity>,
     @Inject(envConfig.KEY) config: ConfigType<typeof envConfig>,
   ) {

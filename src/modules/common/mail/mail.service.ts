@@ -23,7 +23,7 @@ export class MailService implements OnModuleInit {
     @InjectQueue('email') private emailQueue: Queue,
     @Inject(envConfig.KEY) private configService: ConfigType<typeof envConfig>,
     private readonly folderPathsService: FolderPathsService,
-    @Inject(CommonRepositoryEnum.MAIL_LOG_REPOSITORY)
+    @Inject(CommonRepositoryEnum.mailLogRepository)
     private readonly mailLogRepository: Repository<MailLogEntity>,
   ) {
     this.transporter = nodemailer.createTransport({

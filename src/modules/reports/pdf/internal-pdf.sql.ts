@@ -7,7 +7,7 @@ import { UserEntity } from '@auth/entities';
 @Injectable()
 export class InternalPdfSql {
   constructor(
-    @Inject(AuthRepositoryEnum.USER_REPOSITORY)
+    @Inject(AuthRepositoryEnum.userRepository)
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 

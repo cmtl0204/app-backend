@@ -9,7 +9,7 @@ import {
 import { EmailVerificationsEntity, UserEntity } from '@auth/entities';
 import { ServiceResponseHttpInterface } from '@utils/interfaces';
 import { AuthRepositoryEnum, MailSubjectEnum, MailTemplateEnum } from '@utils/enums';
-import { PaginateFilterService, PaginationDto } from '@utils/pagination';
+import { PaginationDto } from '@utils/pagination';
 import { envConfig } from '@config';
 import { ConfigType } from '@nestjs/config';
 import { MailDataInterface } from '@modules/common/mail/interfaces/mail-data.interface';
@@ -23,20 +23,16 @@ import { CataloguesService } from '@modules/common/catalogue/catalogue.service';
 
 @Injectable()
 export class UsersService {
-  private readonly paginateFilterService: PaginateFilterService<UserEntity>;
-
   constructor(
-    @Inject(AuthRepositoryEnum.USER_REPOSITORY)
+    @Inject(AuthRepositoryEnum.userRepository)
     private repository: Repository<UserEntity>,
-    @Inject(AuthRepositoryEnum.EMAIL_VERIFICATION_REPOSITORY)
+    @Inject(AuthRepositoryEnum.emailVerificationRepository)
     private emailVerificationRepository: Repository<EmailVerificationsEntity>,
     @Inject(envConfig.KEY) private configService: ConfigType<typeof envConfig>,
     private readonly mailService: MailService,
     private readonly httpService: HttpService,
     private readonly cataloguesService: CataloguesService,
-  ) {
-    this.paginateFilterService = new PaginateFilterService(this.repository);
-  }
+  ) {}
 
   async create(payload: CreateUserDto): Promise<UserEntity> {
     const entityExist = await this.repository.findOne({
@@ -86,11 +82,11 @@ export class UsersService {
   }
 
   async findAll(params: PaginationDto): Promise<ServiceResponseHttpInterface> {
-    return this.paginateFilterService.execute({
-      params,
-      searchFields: ['name', 'lastname', 'identification', 'email'],
-      relations: ['roles'],
-    });
+    await this.repository.find();
+    return {
+      data: {},
+      pagination: {},
+    };
   }
 
   async findOne(id: string): Promise<UserEntity> {

@@ -33,6 +33,7 @@ export class TransactionalCodeEntity {
   @Column({
     name: 'requester',
     type: 'varchar',
+    nullable: true,
     comment: 'Identificador de quien solicita, puede ser identificacion o correo generalmente',
   })
   requester: string;

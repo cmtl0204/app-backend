@@ -1,19 +1,19 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import {
-  ClassSerializerInterceptor,
-  UnprocessableEntityException,
-  ValidationError,
-  ValidationPipe,
-} from '@nestjs/common';
+import { ClassSerializerInterceptor, INestApplication, ValidationPipe } from '@nestjs/common';
 import { join } from 'path';
 import * as process from 'process';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ResponseHttpInterceptor } from '@utils/interceptors';
-import { FIELD_LABEL_KEY } from '@utils/dto-validation';
-import { AllExceptionsFilter } from '@utils/exceptions';
 import { Client } from 'pg';
+
+import { ExpressAdapter } from '@bull-board/express';
+import { createBullBoard } from '@bull-board/api';
+import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
+import { getQueueToken } from '@nestjs/bullmq';
+import { Queue } from 'bullmq';
+import { buildValidationOptions } from '@utils/helpers';
+import { AllExceptionsFilter } from '@utils/exceptions';
 
 async function createDatabaseIfNotExists() {
   const dbName = process.env.DB_NAME;
@@ -33,14 +33,49 @@ async function createDatabaseIfNotExists() {
 
     if (res.rowCount === 0) {
       await client.query(`CREATE DATABASE "${dbName}"`);
+      console.info(`ℹ️  La base de datos '${dbName}' fue creada correctamente`);
     } else {
-      console.log(`ℹ️  La base de datos '${dbName}' ya existe`);
+      console.info(`ℹ️  La base de datos '${dbName}' ya existe, no es necesario crearla`);
     }
   } catch (error) {
     console.error('Error al verificar/crear la base de datos:', error);
   } finally {
     await client.end();
   }
+}
+
+export function setupValidationPipe(app: INestApplication) {
+  app.useGlobalPipes(new ValidationPipe(buildValidationOptions()));
+}
+
+export function setupBullBoard(app: INestApplication, queues: string[]) {
+  const serverAdapter = new ExpressAdapter();
+  serverAdapter.setBasePath('/admin/queues');
+
+  const adapters = queues.map((queueName) => {
+    const queue = app.get<Queue>(getQueueToken(queueName));
+    return new BullMQAdapter(queue);
+  });
+
+  createBullBoard({
+    queues: adapters,
+    serverAdapter,
+  });
+
+  app.use('/admin/queues', serverAdapter.getRouter());
+}
+
+export function setupSwagger(app: INestApplication) {
+  const config = new DocumentBuilder()
+    .setTitle('API DOCUMENTATION')
+    .setDescription('App Description')
+    .setVersion('3')
+    .addBearerAuth()
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+
+  SwaggerModule.setup('docs', app, document);
 }
 
 async function bootstrap() {
@@ -50,58 +85,7 @@ async function bootstrap() {
 
   app.enableCors();
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      errorHttpStatusCode: 422,
-      stopAtFirstError: true,
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transformOptions: {
-        enableImplicitConversion: true,
-      },
-      exceptionFactory: (errors: ValidationError[]) => {
-        const formatErrorMessages = (errors: ValidationError[]) => {
-          const messages: string[] = [];
-
-          errors.forEach((error) => {
-            const label = error.target
-              ? (Reflect.getMetadata(
-                  FIELD_LABEL_KEY,
-                  error.target.constructor.prototype,
-                  error.property,
-                ) as string)
-              : null;
-
-            const propertyName = label || error.property;
-
-            if (error.constraints) {
-              Object.entries(error.constraints).forEach(([key, msg]) => {
-                if (key === 'whitelistValidation') {
-                  messages.push(`La propiedad ${error.property} no está permitida`);
-                } else {
-                  const modifiedMsg = msg.replace(error.property, propertyName);
-                  messages.push(modifiedMsg);
-                }
-              });
-            }
-          });
-
-          return messages;
-        };
-
-        const messages = formatErrorMessages(errors);
-
-        return new UnprocessableEntityException({
-          message: messages,
-          error: 'Unprocessable Entity',
-        });
-      },
-    }),
-  );
-  app.useGlobalInterceptors(
-    new ClassSerializerInterceptor(app.get(Reflector)),
-    new ResponseHttpInterceptor(),
-  );
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   app.useGlobalFilters(new AllExceptionsFilter());
 
@@ -109,18 +93,15 @@ async function bootstrap() {
 
   app.useStaticAssets(join(process.cwd(), 'public'));
 
-  const documentBuilder = new DocumentBuilder()
-    .setTitle('API SIAAW')
-    .setDescription('App Description')
-    .setVersion('3')
-    .addBearerAuth()
-    .build();
+  app.set('trust proxy', true);
 
-  const document = SwaggerModule.createDocument(app, documentBuilder);
+  setupValidationPipe(app);
 
-  SwaggerModule.setup('docs', app, document);
+  setupSwagger(app);
 
-  await app.listen(process.env.PORT ?? 3000);
+  setupBullBoard(app, ['email']);
+
+  await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
 }
 
 bootstrap();

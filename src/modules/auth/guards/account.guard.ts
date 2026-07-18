@@ -17,7 +17,7 @@ import { ErrorCodeEnum } from '@auth/enums';
 export class AccountGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
-    @Inject(AuthRepositoryEnum.USER_REPOSITORY)
+    @Inject(AuthRepositoryEnum.userRepository)
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 

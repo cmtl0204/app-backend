@@ -11,7 +11,7 @@ export class DpaService {
 
   constructor(
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
-    @Inject(CommonRepositoryEnum.DPA_REPOSITORY)
+    @Inject(CommonRepositoryEnum.dpaRepository)
     private repository: Repository<DpaEntity>,
   ) {}
 

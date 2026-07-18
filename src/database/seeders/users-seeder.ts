@@ -14,7 +14,7 @@ export class UsersSeeder {
 
   constructor(
     private rolesService: RolesService,
-    @Inject(AuthRepositoryEnum.USER_REPOSITORY)
+    @Inject(AuthRepositoryEnum.userRepository)
     private userRepository: Repository<UserEntity>,
     private cataloguesService: CataloguesService,
   ) {}

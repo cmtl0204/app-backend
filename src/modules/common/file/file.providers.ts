@@ -5,12 +5,12 @@ import { FileDownloadLogEntity } from '@modules/common/file/file-download-log.en
 
 export const fileProviders = [
   {
-    provide: CommonRepositoryEnum.FILE_REPOSITORY,
+    provide: CommonRepositoryEnum.fileRepository,
     useFactory: (dataSource: DataSource) => dataSource.getRepository(FileEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: CommonRepositoryEnum.FILE_DOWNLOAD_LOG_REPOSITORY,
+    provide: CommonRepositoryEnum.fileDownloadLogRepository,
     useFactory: (dataSource: DataSource) => dataSource.getRepository(FileDownloadLogEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },

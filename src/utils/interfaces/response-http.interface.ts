@@ -4,9 +4,3 @@ export interface ResponseHttpInterface<T = object | boolean | number | string | 
   title: string;
   pagination?: T;
 }
-
-export interface ErrorResponseHttpModel {
-  data?: any;
-  error: string;
-  message: string | string[];
-}

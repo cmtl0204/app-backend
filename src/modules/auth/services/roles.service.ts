@@ -10,7 +10,7 @@ import { CreateRoleDto, FilterRoleDto, ReadRoleDto, UpdateRoleDto } from '@auth/
 @Injectable()
 export class RolesService {
   constructor(
-    @Inject(AuthRepositoryEnum.ROLE_REPOSITORY)
+    @Inject(AuthRepositoryEnum.roleRepository)
     private repository: Repository<RoleEntity>,
   ) {}
 
@@ -116,8 +116,6 @@ export class RolesService {
 
     const response = await this.repository.findAndCount({
       where,
-      take: limit,
-      skip: PaginationDto.getOffset(limit, page),
       order: {
         updatedAt: 'DESC',
       },

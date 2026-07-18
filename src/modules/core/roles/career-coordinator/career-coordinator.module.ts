@@ -6,12 +6,13 @@ import { coreProviders } from '@modules/core/core.provider';
 import { SharedCoreModule } from '@modules/core/shared-core/shared-core.module';
 import { ReportsModule } from '@modules/reports/reports.module';
 import { controllers } from '@modules/core/roles/career-coordinator/controllers';
+import { CareersService } from '@modules/core/roles/career-coordinator/services/careers.service';
 
 @Global()
 @Module({
   imports: [CatalogueModule, FileModule, MailModule, SharedCoreModule, ReportsModule],
   controllers,
-  providers: [...coreProviders],
+  providers: [...coreProviders, CareersService],
   exports: [],
 })
 export class CareerCoordinatorModule {}

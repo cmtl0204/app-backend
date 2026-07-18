@@ -11,7 +11,7 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(
-    @Inject(AuthRepositoryEnum.USER_REPOSITORY)
+    @Inject(AuthRepositoryEnum.userRepository)
     private readonly repository: Repository<UserEntity>,
     @Inject(envConfig.KEY) readonly configService: ConfigType<typeof envConfig>,
   ) {

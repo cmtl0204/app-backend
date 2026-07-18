@@ -10,9 +10,9 @@ import { PaginationDto } from '@utils/pagination';
 @Injectable()
 export class MenusService {
   constructor(
-    @Inject(AuthRepositoryEnum.MENU_REPOSITORY)
+    @Inject(AuthRepositoryEnum.menuRepository)
     private repository: Repository<MenuEntity>,
-    @Inject(AuthRepositoryEnum.ROLE_REPOSITORY)
+    @Inject(AuthRepositoryEnum.roleRepository)
     private roleRepository: Repository<RoleEntity>,
   ) {}
 
@@ -132,8 +132,6 @@ export class MenusService {
 
     const response = await this.repository.findAndCount({
       where,
-      take: limit,
-      skip: PaginationDto.getOffset(limit, page),
       order: {
         updatedAt: 'DESC',
       },

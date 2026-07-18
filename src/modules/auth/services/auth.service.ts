@@ -45,15 +45,15 @@ import { CataloguesService } from '@modules/common/catalogue/catalogue.service';
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject(AuthRepositoryEnum.USER_REPOSITORY)
+    @Inject(AuthRepositoryEnum.userRepository)
     private repository: Repository<UserEntity>,
-    @Inject(AuthRepositoryEnum.ROLE_REPOSITORY)
+    @Inject(AuthRepositoryEnum.roleRepository)
     private roleRepository: Repository<RoleEntity>,
-    @Inject(AuthRepositoryEnum.TRANSACTIONAL_CODE_REPOSITORY)
+    @Inject(AuthRepositoryEnum.transactionalCodeRepository)
     private transactionalCodeRepository: Repository<TransactionalCodeEntity>,
-    @Inject(AuthRepositoryEnum.SECURITY_QUESTION_REPOSITORY)
+    @Inject(AuthRepositoryEnum.securityQuestionRepository)
     private securityQuestionRepository: Repository<SecurityQuestionEntity>,
-    @Inject(AuthRepositoryEnum.EMAIL_VERIFICATION_REPOSITORY)
+    @Inject(AuthRepositoryEnum.emailVerificationRepository)
     private emailVerificationRepository: Repository<EmailVerificationsEntity>,
     @Inject(envConfig.KEY) private configService: ConfigType<typeof envConfig>,
     @Inject(ConfigEnum.PG_DATA_SOURCE)

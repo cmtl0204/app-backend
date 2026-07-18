@@ -1,19 +1,19 @@
 export enum AuthRepositoryEnum {
-  AUDIT_REPOSITORY = 'AUDIT_REPOSITORY',
-  MENU_REPOSITORY = 'MENU_REPOSITORY',
-  PERMISSION_REPOSITORY = 'PERMISSION_REPOSITORY',
-  ROLE_REPOSITORY = 'ROLE_REPOSITORY',
-  TRANSACTIONAL_CODE_REPOSITORY = 'TRANSACTIONAL_CODE_REPOSITORY',
-  SECURITY_QUESTION_REPOSITORY = 'SECURITY_QUESTION_REPOSITORY',
-  EMAIL_VERIFICATION_REPOSITORY = 'EMAIL_VERIFICATION_REPOSITORY',
-  USER_REPOSITORY = 'USER_REPOSITORY',
+  auditRepository = 'auditRepository',
+  menuRepository = 'menuRepository',
+  permissionRepository = 'permissionRepository',
+  roleRepository = 'roleRepository',
+  transactionalCodeRepository = 'transactionalCodeRepository',
+  securityQuestionRepository = 'securityQuestionRepository',
+  emailVerificationRepository = 'emailVerificationRepository',
+  userRepository = 'userRepository',
 }
 
 export enum CommonRepositoryEnum {
-  FILE_REPOSITORY = 'FILE_REPOSITORY',
-  FILE_DOWNLOAD_LOG_REPOSITORY = 'FILE_DOWNLOAD_LOG_REPOSITORY',
-  CATALOGUE_REPOSITORY = 'CATALOGUE_REPOSITORY',
-  MODEL_CATALOGUE_REPOSITORY = 'MODEL_CATALOGUE_REPOSITORY',
-  DPA_REPOSITORY = 'DPA_REPOSITORY',
-  MAIL_LOG_REPOSITORY = 'MAIL_LOG_REPOSITORY',
+  fileRepository = 'fileRepository',
+  fileDownloadLogRepository = 'fileDownloadLogRepository',
+  catalogueRepository = 'catalogueRepository',
+  modelCatalogueRepository = 'modelCatalogueRepository',
+  dpaRepository = 'dpaRepository',
+  mailLogRepository = 'mailLogRepository',
 }

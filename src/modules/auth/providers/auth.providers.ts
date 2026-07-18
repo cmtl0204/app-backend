@@ -12,37 +12,37 @@ import { SecurityQuestionEntity } from '@auth/entities/security-question.entity'
 
 export const authProviders = [
   {
-    provide: AuthRepositoryEnum.MENU_REPOSITORY,
+    provide: AuthRepositoryEnum.menuRepository,
     useFactory: (dataSource: DataSource) => dataSource.getRepository(MenuEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: AuthRepositoryEnum.PERMISSION_REPOSITORY,
+    provide: AuthRepositoryEnum.permissionRepository,
     useFactory: (dataSource: DataSource) => dataSource.getRepository(PermissionEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: AuthRepositoryEnum.ROLE_REPOSITORY,
+    provide: AuthRepositoryEnum.roleRepository,
     useFactory: (dataSource: DataSource) => dataSource.getRepository(RoleEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: AuthRepositoryEnum.USER_REPOSITORY,
+    provide: AuthRepositoryEnum.userRepository,
     useFactory: (dataSource: DataSource) => dataSource.getRepository(UserEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: AuthRepositoryEnum.TRANSACTIONAL_CODE_REPOSITORY,
+    provide: AuthRepositoryEnum.transactionalCodeRepository,
     useFactory: (dataSource: DataSource) => dataSource.getRepository(TransactionalCodeEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: AuthRepositoryEnum.SECURITY_QUESTION_REPOSITORY,
+    provide: AuthRepositoryEnum.securityQuestionRepository,
     useFactory: (dataSource: DataSource) => dataSource.getRepository(SecurityQuestionEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: AuthRepositoryEnum.EMAIL_VERIFICATION_REPOSITORY,
+    provide: AuthRepositoryEnum.emailVerificationRepository,
     useFactory: (dataSource: DataSource) => dataSource.getRepository(EmailVerificationsEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },

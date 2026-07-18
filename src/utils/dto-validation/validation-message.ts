@@ -92,3 +92,9 @@ export function isPositiveValidationOptions(validationOptions?: ValidationOption
     message: 'La propiedad $property debe ser un número positivo',
   };
 }
+
+export function isIntValidationOptions(validationOptions?: ValidationOptions) {
+  return {
+    message: 'La propiedad $property debe ser un número entero',
+  };
+}

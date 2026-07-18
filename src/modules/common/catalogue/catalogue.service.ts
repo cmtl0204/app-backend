@@ -6,23 +6,20 @@ import { CacheEnum, CommonRepositoryEnum } from '@utils/enums';
 import { ServiceResponseHttpInterface } from '@utils/interfaces';
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { PaginateFilterService, PaginationDto } from '@utils/pagination';
+import { PaginationDto } from '@utils/pagination';
 import { ModelCatalogueEntity } from '@modules/common/catalogue/model-catalogue.entity';
 
 @Injectable()
 export class CataloguesService {
   clientRedis: any = null;
-  private readonly paginateFilterService: PaginateFilterService<CatalogueEntity>;
 
   constructor(
-    @Inject(CommonRepositoryEnum.CATALOGUE_REPOSITORY)
+    @Inject(CommonRepositoryEnum.catalogueRepository)
     private repository: Repository<CatalogueEntity>,
-    @Inject(CommonRepositoryEnum.MODEL_CATALOGUE_REPOSITORY)
+    @Inject(CommonRepositoryEnum.modelCatalogueRepository)
     private modelCatalogueRepository: Repository<ModelCatalogueEntity>,
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
-  ) {
-    this.paginateFilterService = new PaginateFilterService(this.repository);
-  }
+  ) {}
 
   async findCacheModelCatalogues(): Promise<ModelCatalogueEntity[]> {
     // Recuperar del cache
@@ -96,10 +93,11 @@ export class CataloguesService {
   }
 
   async findAll(params: PaginationDto): Promise<ServiceResponseHttpInterface> {
-    return this.paginateFilterService.execute({
-      params,
-      searchFields: ['name', 'description'],
-    });
+    await this.repository.find();
+    return {
+      data: {},
+      pagination: {},
+    };
   }
 
   async findOne(id: string): Promise<CatalogueEntity> {

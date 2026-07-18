@@ -1,17 +1,16 @@
 import {
-  PrimaryGeneratedColumn,
-  Column,
-  Entity,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
   BeforeInsert,
   BeforeUpdate,
-  ManyToOne,
-  ManyToMany,
-  OneToMany,
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
   JoinColumn,
-  PrimaryColumn,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { RoleEntity } from '@auth/entities';
 
@@ -85,6 +84,7 @@ export class MenuEntity {
   @Column({
     name: 'sort',
     type: 'int',
+    nullable: true,
     comment: 'Orden del menu',
   })
   sort: number;

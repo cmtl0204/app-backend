@@ -5,12 +5,12 @@ import { ModelCatalogueEntity } from '@modules/common/catalogue/model-catalogue.
 
 export const catalogueProvider = [
   {
-    provide: CommonRepositoryEnum.CATALOGUE_REPOSITORY,
+    provide: CommonRepositoryEnum.catalogueRepository,
     useFactory: (dataSource: DataSource) => dataSource.getRepository(CatalogueEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: CommonRepositoryEnum.MODEL_CATALOGUE_REPOSITORY,
+    provide: CommonRepositoryEnum.modelCatalogueRepository,
     useFactory: (dataSource: DataSource) => dataSource.getRepository(ModelCatalogueEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },

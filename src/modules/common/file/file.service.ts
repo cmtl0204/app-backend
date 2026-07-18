@@ -15,9 +15,9 @@ import { BucketService } from '@modules/common/bucket/bucket.service';
 @Injectable()
 export class FileService {
   constructor(
-    @Inject(CommonRepositoryEnum.FILE_REPOSITORY)
+    @Inject(CommonRepositoryEnum.fileRepository)
     private repository: Repository<FileEntity>,
-    @Inject(CommonRepositoryEnum.FILE_DOWNLOAD_LOG_REPOSITORY)
+    @Inject(CommonRepositoryEnum.fileDownloadLogRepository)
     private fileDownloadLogRepository: Repository<FileDownloadLogEntity>,
     private readonly bucketService: BucketService,
   ) {}
@@ -246,9 +246,7 @@ export class FileService {
 
     const response = await this.repository.findAndCount({
       relations: { type: true },
-      where,
-      take: limit,
-      skip: PaginationDto.getOffset(limit, page),
+      where,// review aumentar take y skip para la paginacion
     });
 
     return {
