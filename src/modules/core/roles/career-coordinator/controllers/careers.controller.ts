@@ -12,9 +12,12 @@ import {
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Auth, Roles } from '@auth/decorators';
 import { RoleEnum } from '@auth/enums';
-import { PaginationDto } from '@utils/pagination';
 import { ResponseHttpInterface } from '@utils/interfaces';
-import { CreateCareerDto, UpdateCareerDto } from '@modules/core/roles/career-coordinator/dto';
+import {
+  CreateCareerDto,
+  FilterCareerDto,
+  UpdateCareerDto,
+} from '@modules/core/roles/career-coordinator/dto';
 import { CareersService } from '@modules/core/roles/career-coordinator/services/careers.service';
 
 @ApiTags('Careers')
@@ -26,7 +29,7 @@ export class CareersController {
   @ApiOperation({ summary: 'Find All Careers' })
   @Get()
   @Roles(RoleEnum.admin)
-  async findAll(@Query() params: PaginationDto): Promise<ResponseHttpInterface> {
+  async findAll(@Query() params: FilterCareerDto): Promise<ResponseHttpInterface> {
     const response = await this.service.findAll(params);
 
     return {

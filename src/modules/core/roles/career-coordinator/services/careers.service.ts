@@ -1,9 +1,12 @@
 import { ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Brackets, DataSource, Repository } from 'typeorm';
 import { UserEntity } from '@auth/entities';
-import { PaginationDto } from '@utils/pagination';
 import { AuthRepositoryEnum, ConfigEnum, MessageEnum } from '@utils/enums';
-import { CreateCareerDto, UpdateCareerDto } from '@modules/core/roles/career-coordinator/dto';
+import {
+  CreateCareerDto,
+  FilterCareerDto,
+  UpdateCareerDto,
+} from '@modules/core/roles/career-coordinator/dto';
 import { CareerEntity, CareerToTeacherEntity, SubjectEntity } from '@modules/core/entities';
 import { QueryBuilderHelper } from '@modules/core/shared-core/helpers';
 import { CoreRepositoryEnum } from '@modules/core/shared-core/enums';
@@ -18,18 +21,12 @@ export class CareersService {
     @Inject(AuthRepositoryEnum.userRepository) private userRepository: Repository<UserEntity>,
   ) {}
 
-  async findAll(params: PaginationDto) {
+  async findAll(params: FilterCareerDto) {
     const query = this.repository.createQueryBuilder('career');
 
     QueryBuilderHelper.applySearch(query, 'career', this.searchableFields, params.search);
 
-    QueryBuilderHelper.applySorting(
-      query,
-      'career',
-      this.searchableFields,
-      params.sort,
-      params.order,
-    );
+    QueryBuilderHelper.applySorting(query, 'career', params.sort, params.order);
 
     if (params.page && params.limit)
       QueryBuilderHelper.applyPagination(query, params.page, params.limit);

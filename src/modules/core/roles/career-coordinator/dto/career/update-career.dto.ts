@@ -5,5 +5,5 @@ export class UpdateCareerDto extends PickType(CareerDto, [
   'code',
   'resolutionNumber',
   'shortName',
-  'institutionId'
+  'institutionId',
 ]) {}
