@@ -68,7 +68,7 @@ export class CareersController {
 
   @ApiOperation({ summary: 'Update Career' })
   @Patch(':id')
-  @Roles(RoleEnum.career_coordinator)
+  @Roles(RoleEnum.admin)
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateUserDto: UpdateCareerDto,
@@ -84,7 +84,7 @@ export class CareersController {
 
   @ApiOperation({ summary: 'Delete Career' })
   @Delete(':id')
-  @Roles(RoleEnum.career_coordinator)
+  @Roles(RoleEnum.admin)
   async remove(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpInterface> {
     const response = await this.service.remove(id);
 
