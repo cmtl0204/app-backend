@@ -10,8 +10,9 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from 'typeorm';
-import {CatalogueEntity, TeacherEntity} from '@modules/core/entities';
+import { TeacherEntity} from '@modules/core/entities';
 import {getDateFormat} from "@utils/helpers";
+import { CatalogueEntity } from '@modules/common/catalogue/catalogue.entity';
 
 @Entity('information_teachers', {schema: 'core'})
 export class InformationTeacherEntity {

@@ -33,7 +33,7 @@ export class CataloguesSeeder {
         name: 'A+',
         sort: 1,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_blood_type,
+        type: CatalogueTypeEnum.usersBloodType,
       },
       {
         code: 'a-',
@@ -41,7 +41,7 @@ export class CataloguesSeeder {
         name: 'A-',
         sort: 2,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_blood_type,
+        type: CatalogueTypeEnum.usersBloodType,
       },
       {
         code: 'b+',
@@ -49,7 +49,7 @@ export class CataloguesSeeder {
         name: 'B+',
         sort: 3,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_blood_type,
+        type: CatalogueTypeEnum.usersBloodType,
       },
       {
         code: 'b-',
@@ -57,7 +57,7 @@ export class CataloguesSeeder {
         name: 'B-',
         sort: 4,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_blood_type,
+        type: CatalogueTypeEnum.usersBloodType,
       },
       {
         code: 'ab+',
@@ -65,7 +65,7 @@ export class CataloguesSeeder {
         name: 'AB+',
         sort: 5,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_blood_type,
+        type: CatalogueTypeEnum.usersBloodType,
       },
       {
         code: 'ab-',
@@ -73,7 +73,7 @@ export class CataloguesSeeder {
         name: 'AB-',
         sort: 6,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_blood_type,
+        type: CatalogueTypeEnum.usersBloodType,
       },
       {
         code: 'o+',
@@ -81,7 +81,7 @@ export class CataloguesSeeder {
         name: 'O+',
         sort: 7,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_blood_type,
+        type: CatalogueTypeEnum.usersBloodType,
       },
       {
         code: 'o-',
@@ -89,7 +89,7 @@ export class CataloguesSeeder {
         name: 'O-',
         sort: 8,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_blood_type,
+        type: CatalogueTypeEnum.usersBloodType,
       },
     );
 
@@ -107,7 +107,7 @@ export class CataloguesSeeder {
         name: 'Indígena',
         sort: 1,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_ethnic_origin,
+        type: CatalogueTypeEnum.usersEthnicOrigin,
       },
       {
         code: CatalogueEthnicOriginEnum.afro_ecuadorian,
@@ -115,7 +115,7 @@ export class CataloguesSeeder {
         name: 'Afroecuatoriano',
         sort: 1,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_ethnic_origin,
+        type: CatalogueTypeEnum.usersEthnicOrigin,
       },
       {
         code: CatalogueEthnicOriginEnum.montubio,
@@ -123,7 +123,7 @@ export class CataloguesSeeder {
         name: 'Montubio',
         sort: 1,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_ethnic_origin,
+        type: CatalogueTypeEnum.usersEthnicOrigin,
       },
       {
         code: CatalogueEthnicOriginEnum.half_blood,
@@ -131,7 +131,7 @@ export class CataloguesSeeder {
         name: 'Mestizo',
         sort: 1,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_ethnic_origin,
+        type: CatalogueTypeEnum.usersEthnicOrigin,
       },
       {
         code: CatalogueEthnicOriginEnum.white,
@@ -139,7 +139,7 @@ export class CataloguesSeeder {
         name: 'Blanco',
         sort: 1,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_ethnic_origin,
+        type: CatalogueTypeEnum.usersEthnicOrigin,
       },
     );
 
@@ -157,7 +157,7 @@ export class CataloguesSeeder {
         name: 'Cédula',
         sort: 1,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_identification_type,
+        type: CatalogueTypeEnum.usersIdentificationType,
       },
       {
         code: '2',
@@ -165,7 +165,7 @@ export class CataloguesSeeder {
         name: 'Pasaporte',
         sort: 1,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_identification_type,
+        type: CatalogueTypeEnum.usersIdentificationType,
       },
     );
 
@@ -183,7 +183,7 @@ export class CataloguesSeeder {
         name: 'Masculino',
         sort: 1,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_gender,
+        type: CatalogueTypeEnum.usersGender,
       },
       {
         code: 'female',
@@ -191,7 +191,7 @@ export class CataloguesSeeder {
         name: 'Femenino',
         sort: 2,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_gender,
+        type: CatalogueTypeEnum.usersGender,
       },
       {
         code: 'other',
@@ -199,7 +199,7 @@ export class CataloguesSeeder {
         name: 'Otro',
         sort: 3,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_gender,
+        type: CatalogueTypeEnum.usersGender,
       },
     );
 
@@ -217,7 +217,7 @@ export class CataloguesSeeder {
         name: 'Soltero/a',
         sort: 1,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_marital_status,
+        type: CatalogueTypeEnum.usersMaritalStatus,
       },
       {
         code: CatalogueMaritalStatusEnum.married,
@@ -225,7 +225,7 @@ export class CataloguesSeeder {
         name: 'Casado/a',
         sort: 2,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_marital_status,
+        type: CatalogueTypeEnum.usersMaritalStatus,
       },
       {
         code: CatalogueMaritalStatusEnum.divorced,
@@ -233,7 +233,7 @@ export class CataloguesSeeder {
         name: 'Divorciado/a',
         sort: 3,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_marital_status,
+        type: CatalogueTypeEnum.usersMaritalStatus,
       },
       {
         code: CatalogueMaritalStatusEnum.free_union,
@@ -241,7 +241,7 @@ export class CataloguesSeeder {
         name: 'Unión libre',
         sort: 4,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_marital_status,
+        type: CatalogueTypeEnum.usersMaritalStatus,
       },
       {
         code: CatalogueMaritalStatusEnum.widower,
@@ -249,7 +249,7 @@ export class CataloguesSeeder {
         name: 'Viudo/a',
         sort: 5,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_marital_status,
+        type: CatalogueTypeEnum.usersMaritalStatus,
       },
     );
 
@@ -267,7 +267,7 @@ export class CataloguesSeeder {
         name: 'Hombre',
         sort: 1,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_sex,
+        type: CatalogueTypeEnum.usersSex,
       },
       {
         code: '2',
@@ -275,7 +275,7 @@ export class CataloguesSeeder {
         name: 'Mujer',
         sort: 1,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_sex,
+        type: CatalogueTypeEnum.usersSex,
       },
     );
 
@@ -294,7 +294,7 @@ export class CataloguesSeeder {
         name: 'Afgana',
         sort: 1,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'al',
@@ -302,7 +302,7 @@ export class CataloguesSeeder {
         name: 'Albanesa',
         sort: 2,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'dz',
@@ -310,7 +310,7 @@ export class CataloguesSeeder {
         name: 'Argelina',
         sort: 3,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'ad',
@@ -318,7 +318,7 @@ export class CataloguesSeeder {
         name: 'Andorrana',
         sort: 4,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'ao',
@@ -326,7 +326,7 @@ export class CataloguesSeeder {
         name: 'Angoleña',
         sort: 5,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'ar',
@@ -334,7 +334,7 @@ export class CataloguesSeeder {
         name: 'Argentina',
         sort: 6,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'am',
@@ -342,7 +342,7 @@ export class CataloguesSeeder {
         name: 'Armenia',
         sort: 7,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'au',
@@ -350,7 +350,7 @@ export class CataloguesSeeder {
         name: 'Australiana',
         sort: 8,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'at',
@@ -358,7 +358,7 @@ export class CataloguesSeeder {
         name: 'Austriaca',
         sort: 9,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'az',
@@ -366,7 +366,7 @@ export class CataloguesSeeder {
         name: 'Azerbaiyana',
         sort: 10,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
 
       {
@@ -375,7 +375,7 @@ export class CataloguesSeeder {
         name: 'Bangladesí',
         sort: 11,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'be',
@@ -383,7 +383,7 @@ export class CataloguesSeeder {
         name: 'Belga',
         sort: 12,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'bo',
@@ -391,7 +391,7 @@ export class CataloguesSeeder {
         name: 'Boliviana',
         sort: 13,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'br',
@@ -399,7 +399,7 @@ export class CataloguesSeeder {
         name: 'Brasileña',
         sort: 14,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'bg',
@@ -407,7 +407,7 @@ export class CataloguesSeeder {
         name: 'Búlgara',
         sort: 15,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
 
       {
@@ -416,7 +416,7 @@ export class CataloguesSeeder {
         name: 'Canadiense',
         sort: 16,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'cl',
@@ -424,7 +424,7 @@ export class CataloguesSeeder {
         name: 'Chilena',
         sort: 17,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'cn',
@@ -432,7 +432,7 @@ export class CataloguesSeeder {
         name: 'China',
         sort: 18,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'co',
@@ -440,7 +440,7 @@ export class CataloguesSeeder {
         name: 'Colombiana',
         sort: 19,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'cr',
@@ -448,7 +448,7 @@ export class CataloguesSeeder {
         name: 'Costarricense',
         sort: 20,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
 
       {
@@ -457,7 +457,7 @@ export class CataloguesSeeder {
         name: 'Cubana',
         sort: 21,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'dk',
@@ -465,7 +465,7 @@ export class CataloguesSeeder {
         name: 'Danesa',
         sort: 22,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'do',
@@ -473,7 +473,7 @@ export class CataloguesSeeder {
         name: 'Dominicana',
         sort: 23,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'ec',
@@ -481,7 +481,7 @@ export class CataloguesSeeder {
         name: 'Ecuatoriana',
         sort: 24,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'eg',
@@ -489,7 +489,7 @@ export class CataloguesSeeder {
         name: 'Egipcia',
         sort: 25,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
 
       {
@@ -498,7 +498,7 @@ export class CataloguesSeeder {
         name: 'Salvadoreña',
         sort: 26,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'es',
@@ -506,7 +506,7 @@ export class CataloguesSeeder {
         name: 'Española',
         sort: 27,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'us',
@@ -514,7 +514,7 @@ export class CataloguesSeeder {
         name: 'Estadounidense',
         sort: 28,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'fr',
@@ -522,7 +522,7 @@ export class CataloguesSeeder {
         name: 'Francesa',
         sort: 29,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'de',
@@ -530,7 +530,7 @@ export class CataloguesSeeder {
         name: 'Alemana',
         sort: 30,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
 
       {
@@ -539,7 +539,7 @@ export class CataloguesSeeder {
         name: 'Guatemalteca',
         sort: 31,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'hn',
@@ -547,7 +547,7 @@ export class CataloguesSeeder {
         name: 'Hondureña',
         sort: 32,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'in',
@@ -555,7 +555,7 @@ export class CataloguesSeeder {
         name: 'India',
         sort: 33,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'id',
@@ -563,7 +563,7 @@ export class CataloguesSeeder {
         name: 'Indonesia',
         sort: 34,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'it',
@@ -571,7 +571,7 @@ export class CataloguesSeeder {
         name: 'Italiana',
         sort: 35,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
 
       {
@@ -580,7 +580,7 @@ export class CataloguesSeeder {
         name: 'Japonesa',
         sort: 36,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'mx',
@@ -588,7 +588,7 @@ export class CataloguesSeeder {
         name: 'Mexicana',
         sort: 37,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'ni',
@@ -596,7 +596,7 @@ export class CataloguesSeeder {
         name: 'Nicaragüense',
         sort: 38,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'no',
@@ -604,7 +604,7 @@ export class CataloguesSeeder {
         name: 'Noruega',
         sort: 39,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'pa',
@@ -612,7 +612,7 @@ export class CataloguesSeeder {
         name: 'Panameña',
         sort: 40,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
 
       {
@@ -621,7 +621,7 @@ export class CataloguesSeeder {
         name: 'Paraguaya',
         sort: 41,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'pe',
@@ -629,7 +629,7 @@ export class CataloguesSeeder {
         name: 'Peruana',
         sort: 42,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'pt',
@@ -637,7 +637,7 @@ export class CataloguesSeeder {
         name: 'Portuguesa',
         sort: 43,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'gb',
@@ -645,7 +645,7 @@ export class CataloguesSeeder {
         name: 'Británica',
         sort: 44,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'ru',
@@ -653,7 +653,7 @@ export class CataloguesSeeder {
         name: 'Rusa',
         sort: 45,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
 
       {
@@ -662,7 +662,7 @@ export class CataloguesSeeder {
         name: 'Sueca',
         sort: 46,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'ch',
@@ -670,7 +670,7 @@ export class CataloguesSeeder {
         name: 'Suiza',
         sort: 47,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'tr',
@@ -678,7 +678,7 @@ export class CataloguesSeeder {
         name: 'Turca',
         sort: 48,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'ua',
@@ -686,7 +686,7 @@ export class CataloguesSeeder {
         name: 'Ucraniana',
         sort: 49,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
       {
         code: 'uy',
@@ -694,7 +694,7 @@ export class CataloguesSeeder {
         name: 'Uruguaya',
         sort: 50,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
 
       {
@@ -703,7 +703,7 @@ export class CataloguesSeeder {
         name: 'Venezolana',
         sort: 51,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_nationality,
+        type: CatalogueTypeEnum.usersNationality,
       },
     );
 
@@ -722,7 +722,7 @@ export class CataloguesSeeder {
         name: '¿Cuál es el primer nombre de tu padre?',
         sort: 1,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_security_question,
+        type: CatalogueTypeEnum.usersSecurityQuestion,
       },
       {
         code: '2',
@@ -730,7 +730,7 @@ export class CataloguesSeeder {
         name: '¿Cómo se llamaba tu mascota favorita?',
         sort: 2,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_security_question,
+        type: CatalogueTypeEnum.usersSecurityQuestion,
       },
       {
         code: '3',
@@ -738,7 +738,7 @@ export class CataloguesSeeder {
         name: '¿Cuál es el segundo nombre de tu padre?',
         sort: 3,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_security_question,
+        type: CatalogueTypeEnum.usersSecurityQuestion,
       },
       {
         code: '4',
@@ -746,7 +746,7 @@ export class CataloguesSeeder {
         name: '¿Cuál fue el nombre de tu mejor amigo o amiga de la infancia?',
         sort: 4,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_security_question,
+        type: CatalogueTypeEnum.usersSecurityQuestion,
       },
       {
         code: '5',
@@ -754,7 +754,7 @@ export class CataloguesSeeder {
         name: '¿Cuál era el nombre de tu escuela primaria?',
         sort: 5,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_security_question,
+        type: CatalogueTypeEnum.usersSecurityQuestion,
       },
       {
         code: '6',
@@ -762,7 +762,7 @@ export class CataloguesSeeder {
         name: '¿Cuál es el nombre de tu primo o prima favorita?',
         sort: 6,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_security_question,
+        type: CatalogueTypeEnum.usersSecurityQuestion,
       },
       {
         code: '7',
@@ -770,7 +770,7 @@ export class CataloguesSeeder {
         name: '¿Cuál es el primer nombre de tu madre?',
         sort: 7,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_security_question,
+        type: CatalogueTypeEnum.usersSecurityQuestion,
       },
       {
         code: '8',
@@ -778,7 +778,7 @@ export class CataloguesSeeder {
         name: '¿Cuál es el nombre de tu profesor favorito del colegio?',
         sort: 8,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_security_question,
+        type: CatalogueTypeEnum.usersSecurityQuestion,
       },
       {
         code: '9',
@@ -786,7 +786,7 @@ export class CataloguesSeeder {
         name: '¿Cuál es tu número favorito?',
         sort: 9,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_security_question,
+        type: CatalogueTypeEnum.usersSecurityQuestion,
       },
       {
         code: '10',
@@ -794,7 +794,7 @@ export class CataloguesSeeder {
         name: '¿Cuál es el segundo nombre de tu madre?',
         sort: 10,
         state: CatalogueStateEnum.enabled,
-        type: CatalogueTypeEnum.users_security_question,
+        type: CatalogueTypeEnum.usersSecurityQuestion,
       },
     );
 

@@ -15,9 +15,9 @@ import { UserEntity } from '@auth/entities';
 import {
   ResidenceAddressEntity,
   CareerEntity,
-  CatalogueEntity,
   SchoolPeriodEntity,
 } from '@modules/core/entities';
+import { CatalogueEntity } from '@modules/common/catalogue/catalogue.entity';
 
 @Entity('institutions', { schema: 'core' })
 export class InstitutionEntity {

@@ -10,7 +10,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { UserEntity } from '@auth/entities';
-import { LocationEntity } from '@modules/core/entities';
+import { DpaEntity } from '@modules/common/dpa/dpa.entity';
+import { CatalogueEntity } from '@modules/common/catalogue/catalogue.entity';
 
 @Entity('residence_addresses', { schema: 'core' })
 export class ResidenceAddressEntity {
@@ -53,19 +54,17 @@ export class ResidenceAddressEntity {
   @JoinColumn({ name: 'model_id' })
   user: UserEntity;
 
-  @ManyToOne(() => LocationEntity, {
-    nullable: true,
-  })
+  @ManyToOne(() => CatalogueEntity, {})
   @JoinColumn({ name: 'country_id' })
-  country: LocationEntity;
-  @Column({ type: 'uuid', name: 'country_id', comment: 'Pais' })
+  country: CatalogueEntity;
+  @Column({ type: 'uuid', name: 'country_id', comment: 'Pais', nullable: true })
   countryId: string;
 
-  @ManyToOne(() => LocationEntity, {
+  @ManyToOne(() => DpaEntity, {
     nullable: true,
   })
   @JoinColumn({ name: 'province_id' })
-  province: LocationEntity;
+  province: DpaEntity;
   @Column({
     type: 'uuid',
     name: 'province_id',
@@ -74,11 +73,11 @@ export class ResidenceAddressEntity {
   })
   provinceId: string;
 
-  @ManyToOne(() => LocationEntity, {
+  @ManyToOne(() => DpaEntity, {
     nullable: true,
   })
   @JoinColumn({ name: 'canton_id' })
-  canton: LocationEntity;
+  canton: DpaEntity;
   @Column({
     type: 'uuid',
     name: 'canton_id',
@@ -87,11 +86,11 @@ export class ResidenceAddressEntity {
   })
   cantonId: string;
 
-  @ManyToOne(() => LocationEntity, {
+  @ManyToOne(() => DpaEntity, {
     nullable: true,
   })
   @JoinColumn({ name: 'parish_id' })
-  parish: LocationEntity;
+  parish: DpaEntity;
   @Column({
     type: 'uuid',
     name: 'parish_id',

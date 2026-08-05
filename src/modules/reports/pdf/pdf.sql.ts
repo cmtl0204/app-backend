@@ -5,13 +5,13 @@ import { AuthRepositoryEnum } from '@utils/enums';
 import { UserEntity } from '@auth/entities';
 
 @Injectable()
-export class InternalPdfSql {
+export class PdfSql {
   constructor(
     @Inject(AuthRepositoryEnum.userRepository)
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  async findUsers(): Promise<any> {
+  async findUsers(id:string): Promise<any> {
     const users = await this.userRepository.createQueryBuilder('users').getRawMany();
 
     return {

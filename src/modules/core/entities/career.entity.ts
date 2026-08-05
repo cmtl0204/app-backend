@@ -13,13 +13,13 @@ import {
 } from 'typeorm';
 import {
   CareerToTeacherEntity,
-  CatalogueEntity,
   InstitutionEntity,
   StudentEntity,
   SubjectEntity,
 } from '@modules/core/entities';
 import { UserEntity } from '@auth/entities';
 import { CareerAcademicPeriodsEntity } from './career-academic-periods.entity';
+import { CatalogueEntity } from '@modules/common/catalogue/catalogue.entity';
 
 @Entity('careers', { schema: 'core' })
 export class CareerEntity {

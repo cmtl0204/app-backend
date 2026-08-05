@@ -9,11 +9,12 @@ import {
     UpdateDateColumn
 } from 'typeorm';
 import {
-    CatalogueEntity, PartialPermissionEntity,
+     PartialPermissionEntity,
     SchoolPeriodEntity,
     SubjectEntity,
     TeacherEntity
 } from '@modules/core/entities';
+import { CatalogueEntity } from '@modules/common/catalogue/catalogue.entity';
 
 @Entity('teacher_distributions', {schema: 'core'})
 export class TeacherDistributionEntity {

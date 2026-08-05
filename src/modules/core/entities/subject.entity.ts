@@ -1,5 +1,6 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { CareerEntity, CatalogueEntity, SubjectCorequisiteEntity, SubjectPrerequisiteEntity } from '@modules/core/entities';
+import { CareerEntity,  SubjectCorequisiteEntity, SubjectPrerequisiteEntity } from '@modules/core/entities';
+import { CatalogueEntity } from '@modules/common/catalogue/catalogue.entity';
 
 @Entity('subjects', { schema: 'core' })
 export class SubjectEntity {

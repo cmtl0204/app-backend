@@ -9,9 +9,10 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from 'typeorm';
-import {CatalogueEntity, EnrollmentDetailEntity, EnrollmentEntity} from '@modules/core/entities';
+import { EnrollmentDetailEntity, EnrollmentEntity} from '@modules/core/entities';
 import {UserEntity} from "@auth/entities";
 import {getDateFormat} from "@utils/helpers";
+import { CatalogueEntity } from '@modules/common/catalogue/catalogue.entity';
 
 @Entity('enrollment_detail_states', {schema: 'core'})
 export class EnrollmentDetailStateEntity {

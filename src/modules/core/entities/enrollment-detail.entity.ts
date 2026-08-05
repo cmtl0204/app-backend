@@ -14,13 +14,13 @@ import {
 } from 'typeorm';
 import {
   AttendanceEntity,
-  CatalogueEntity,
   EnrollmentDetailStateEntity,
   EnrollmentEntity,
   GradeEntity,
   SubjectEntity,
 } from '@modules/core/entities';
 import { getDateFormat } from '@utils/helpers';
+import { CatalogueEntity } from '@modules/common/catalogue/catalogue.entity';
 
 @Entity('enrollment_details', { schema: 'core' })
 export class EnrollmentDetailEntity {

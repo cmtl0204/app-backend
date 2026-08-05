@@ -1,12 +1,12 @@
 export enum CatalogueCoreTypeEnum {
   adventure_tourism_modality_items = 'adventure_tourism_modality_items',
-  users_blood_type = 'users_blood_type',
-  users_ethnic_origin = 'users_ethnic_origin',
-  users_gender = 'users_gender',
-  users_marital_status = 'users_marital_status',
-  users_nationality = 'users_nationality',
-  users_sex = 'users_sex',
-  users_security_question = 'users_security_question',
+  usersBloodType = 'usersBloodType',
+  usersEthnicOrigin = 'usersEthnicOrigin',
+  usersGender = 'usersGender',
+  usersMaritalStatus = 'usersMaritalStatus',
+  usersNationality = 'usersNationality',
+  usersSex = 'usersSex',
+  usersSecurityQuestion = 'usersSecurityQuestion',
 }
 
 export enum CatalogueStateEnum {
@@ -53,6 +53,11 @@ export enum CatalogueSchoolPeriodTypeEnum {
   ORDINARY = 'ordinary',
   EXTRAORDINARY = 'extraordinary',
   ESPECIAL = 'especial',
+}
+
+export enum CatalogueSchoolPeriodCodeEnum {
+  opened = 'opened',
+  closed = 'closed',
 }
 
 export enum CatalogueSubjectRequirementTypeEnum {

@@ -24,6 +24,10 @@ export class QueryBuilderHelper {
     sort: string,
     order: 'ASC' | 'DESC',
   ): void {
+    if (!sort?.trim()) {
+      return;
+    }
+
     query.orderBy(`${alias}.${sort}`, order);
   }
 

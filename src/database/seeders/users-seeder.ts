@@ -33,7 +33,7 @@ export class UsersSeeder {
     const catalogues = await this.cataloguesService.findCache();
 
     this.identificationTypes = catalogues.filter(
-      (catalogue) => catalogue.type === CatalogueTypeEnum.users_identification_type,
+      (catalogue) => catalogue.type === CatalogueTypeEnum.usersIdentificationType,
     );
   }
 

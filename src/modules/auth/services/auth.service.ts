@@ -41,6 +41,12 @@ import { EmailResetSecurityQuestionDto } from '@auth/dto/security-questions/emai
 import { createHash, randomUUID } from 'node:crypto';
 import { PasswordResetDto } from '@auth/dto/auth/password-reset.dto';
 import { CataloguesService } from '@modules/common/catalogue/catalogue.service';
+import {
+  CatalogueCoreTypeEnum,
+  CatalogueSchoolPeriodCodeEnum,
+  CoreRepositoryEnum,
+} from '@modules/core/shared-core/enums';
+import { SchoolPeriodEntity } from '@modules/core/entities';
 
 @Injectable()
 export class AuthService {
@@ -55,6 +61,8 @@ export class AuthService {
     private securityQuestionRepository: Repository<SecurityQuestionEntity>,
     @Inject(AuthRepositoryEnum.emailVerificationRepository)
     private emailVerificationRepository: Repository<EmailVerificationsEntity>,
+    @Inject(CoreRepositoryEnum.schoolPeriodRepository)
+    private schoolPeriodRepository: Repository<SchoolPeriodEntity>,
     @Inject(envConfig.KEY) private configService: ConfigType<typeof envConfig>,
     @Inject(ConfigEnum.PG_DATA_SOURCE)
     private readonly dataSource: DataSource,
@@ -182,10 +190,15 @@ export class AuthService {
       refreshToken: await Bcrypt.hash(tokens.refreshToken, 10),
     });
 
+    const schoolPeriodOpen = await this.schoolPeriodRepository.findOne({
+      where: { state: { code: CatalogueSchoolPeriodCodeEnum.opened } },
+    });
+
     return {
       accessToken: tokens.accessToken,
       refreshToken: tokens.refreshToken,
       auth: userRest,
+      schoolPeriodOpen: schoolPeriodOpen,
       roles: userRest.roles,
     };
   }
@@ -236,7 +249,7 @@ export class AuthService {
     const identificationType = (await this.cataloguesService.findCache()).find(
       (item) =>
         item.code === CatalogueUsersIdentificationTypeEnum.ruc &&
-        item.type === CatalogueTypeEnum.users_identification_type,
+        item.type === CatalogueTypeEnum.usersIdentificationType,
     );
 
     const entity = this.repository.create({
