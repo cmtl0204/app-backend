@@ -19,6 +19,7 @@ import { EnrollmentSqlService } from './services/enrollment-sql.service';
 import { SchoolPeriodsService } from './services/school-periods.service';
 import { LocationsService } from './services/locations.service';
 import { CacheModule } from '@nestjs/cache-manager';
+import { TeacherDistributionService } from './services/teacher-distribution.service';
 
 @Global()
 @Module({
@@ -45,6 +46,7 @@ import { CacheModule } from '@nestjs/cache-manager';
     EnrollmentSqlService,
     SchoolPeriodsService,
     LocationsService,
+    TeacherDistributionService,
   ],
   exports: [],
 })

@@ -10,5 +10,4 @@ import { RoleEnum } from '@auth/enums';
 @Controller('core/student/locations')
 export class LocationsController {
   constructor(private locationsService: LocationsService) {}
-
 }

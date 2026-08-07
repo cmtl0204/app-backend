@@ -324,6 +324,7 @@ export class EnrollmentsService {
       studentId,
       subjectId,
     );
+    console.log('resultdo count', count);
     return count;
   }
 
@@ -395,7 +396,7 @@ export class EnrollmentsService {
     const enrollments = await this.repository.find({
       relations: {
         enrollmentDetails: {
-          subject: { type: true },
+          subject: { type: true, academicPeriod: true },
           academicState: true,
           enrollmentDetailStates: { state: true },
           enrollmentDetailState: { state: true },
@@ -403,7 +404,7 @@ export class EnrollmentsService {
       },
       where: { studentId },
     });
-
+    console.log('consulta', enrollments);
     const enrollmentDetails: EnrollmentDetailEntity[] = [];
 
     for (const item of enrollments) {
@@ -414,8 +415,13 @@ export class EnrollmentsService {
       return [];
     }
 
+    enrollmentDetails.sort((a, b) => {
+      return Number(a.subject.academicPeriod.code) - Number(b.subject.academicPeriod.code);
+    });
+
     return enrollmentDetails;
   }
+
   private getLastEnrollmentDetailStateQuery(qb: SelectQueryBuilder<any>) {
     return qb
       .select(

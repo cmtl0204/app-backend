@@ -24,6 +24,7 @@ import {
   ResidenceAddressEntity,
 } from '@modules/core/entities';
 import { LocationsService } from '../services/locations.service';
+import { log } from 'node:console';
 
 @ApiTags('Students')
 // @Auth()
@@ -159,14 +160,14 @@ export class StudentsController {
     };
   }
 
-  @Get(':id/enrollment-details')
+  @Get('/:id/enrollment-details')
   @PublicRoute()
   @HttpCode(HttpStatus.OK)
   async findEnrollmentsDetailsByStudent(
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ResponseHttpInterface> {
     const serviceResponse = await this.enrollmentsService.findEnrollmentsByStudent(id);
-
+    console.log('controlador detai res :', serviceResponse);
     return {
       data: serviceResponse,
       message: `Success`,
