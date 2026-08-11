@@ -1,6 +1,7 @@
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { In, Not, Repository, SelectQueryBuilder } from 'typeorm';
 import {
+  CatalogueEnrollmentsAcademicStateEnum,
   CatalogueEnrollmentStateEnum,
   CatalogueSchoolPeriodTypeEnum,
   CoreRepositoryEnum,
@@ -395,7 +396,7 @@ export class EnrollmentsService {
     return enrollment;
   }
 
-  async findEnrollmentsByStudent(studentId: string): Promise<EnrollmentDetailEntity[]> {
+  async findEnrollmentsByStudent(studentId: string): Promise<EnrollmentDetailEntity | null> {
     const enrollments = await this.repository.find({
       relations: {
         enrollmentDetails: {
@@ -405,7 +406,12 @@ export class EnrollmentsService {
           enrollmentDetailState: { state: true },
         },
       },
-      where: { studentId },
+      where: {
+        studentId,
+        enrollmentDetails: {
+          academicState: { code: CatalogueEnrollmentsAcademicStateEnum.APPROVED },
+        },
+      },
     });
     console.log('consulta', enrollments);
     const enrollmentDetails: EnrollmentDetailEntity[] = [];
@@ -413,16 +419,15 @@ export class EnrollmentsService {
     for (const item of enrollments) {
       enrollmentDetails.push(...item.enrollmentDetails);
     }
+    //review aumentar campo state en enrollment y enrollmentDetail para que se duplique y tome el ultimo valor
 
-    if (enrollmentDetails.length === 0) {
-      return [];
-    }
+    if (enrollmentDetails.length === 0) return null;
 
     enrollmentDetails.sort((a, b) => {
-      return Number(a.subject.academicPeriod.code) - Number(b.subject.academicPeriod.code);
+      return Number(b.subject.academicPeriod.code) - Number(a.subject.academicPeriod.code);
     });
 
-    return enrollmentDetails;
+    return enrollmentDetails[0];
   }
 
   private getLastEnrollmentDetailStateQuery(qb: SelectQueryBuilder<any>) {
@@ -437,6 +442,7 @@ export class EnrollmentsService {
       .orderBy('eds.enrollment_detail_id')
       .addOrderBy('eds.created_at', 'DESC');
   }
+
   async getAvailableSubjects(dto: GetAvailableSubjectsDto) {
     try {
       const { careerId, academicPeriodId, schoolPeriodId, workdayId, parallelId } = dto;

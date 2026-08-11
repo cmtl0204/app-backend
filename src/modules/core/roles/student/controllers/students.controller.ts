@@ -163,7 +163,7 @@ export class StudentsController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ResponseHttpInterface> {
     const serviceResponse = await this.enrollmentsService.findEnrollmentsByStudent(id);
-    console.log('controlador detai res :', serviceResponse);
+
     return {
       data: serviceResponse,
       message: `Success`,
