@@ -3,7 +3,7 @@ import { PrinterService } from './printer.service';
 import { ConfigType } from '@nestjs/config';
 import { envConfig } from '@config';
 import { PdfSql } from '@modules/reports/pdf/pdf.sql';
-import { registrationCertificateGuideReport } from '@modules/reports/pdf/templates/registration-certificate-guide.report';
+import { registrationApplicationReport } from './templates/registration-application.report';
 
 @Injectable()
 export class PdfService {
@@ -13,19 +13,19 @@ export class PdfService {
     @Inject(envConfig.KEY) private configService: ConfigType<typeof envConfig>,
   ) {}
 
-  async generateInactivation({
+  async generateRegistration({
     type = 'buffer',
-    id,
+    studentId,
   }: {
     type?: string;
-    id: string;
+    studentId: string;
   }): Promise<PDFKit.PDFDocument | Buffer> {
-    const data: any = await this.pdfSql.findUsers(id);
+    const data: any = await this.pdfSql.findLatestRegistrationByStudent(studentId);
 
     try {
       if (type === 'buffer')
-        return this.printerService.createPdfBuffer(registrationCertificateGuideReport(data));
-      else return this.printerService.createPdf(registrationCertificateGuideReport(data));
+        return this.printerService.createPdfBuffer(registrationApplicationReport(data));
+      else return this.printerService.createPdf(registrationApplicationReport(data));
     } catch (error) {
       console.log(error);
       throw new Error();

@@ -37,7 +37,7 @@ export class FileController {
     FileInterceptor('file', {
       storage: multer.memoryStorage(),
       fileFilter: fileFilter,
-      limits: { fieldSize: 10 },
+      limits: { fieldSize: 10 * 1024 * 1024 },
     }),
   )
   async uploadFile(

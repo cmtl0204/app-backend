@@ -1,5 +1,5 @@
 import { SchoolPeriodEntity } from '@modules/core/entities';
-import { CoreRepositoryEnum } from '@modules/core/shared-core/enums';
+import { CatalogueSchoolPeriodCodeEnum, CoreRepositoryEnum } from '@modules/core/shared-core/enums';
 import { ServiceResponseHttpModel } from './enrollment-details.service';
 import { MessageEnum } from '@utils/enums';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
@@ -30,7 +30,7 @@ export class SchoolPeriodsService {
   async findOpenSchoolPeriod(): Promise<SchoolPeriodEntity> {
     const entity = await this.repository.findOne({
       where: {
-        state: { code: 'open' },
+        state: { code: CatalogueSchoolPeriodCodeEnum.opened },
       },
     });
 

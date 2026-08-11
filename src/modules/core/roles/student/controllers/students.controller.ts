@@ -24,7 +24,6 @@ import {
   ResidenceAddressEntity,
 } from '@modules/core/entities';
 import { LocationsService } from '../services/locations.service';
-import { log } from 'node:console';
 
 @ApiTags('Students')
 // @Auth()
@@ -65,10 +64,7 @@ export class StudentsController {
           console.log('--- DEPURANDO DRAFT ---');
           console.log('Student ID:', studentInfo?.id);
           console.log('Career ID:', studentInfo?.informationStudent?.careerId);
-          enrollment = await this.enrollmentsService.findEnrollmentByStudent(
-            studentInfo.id,
-            studentInfo.informationStudent.careerId,
-          );
+          enrollment = await this.enrollmentsService.findEnrollmentByStudent(studentInfo.id);
         } catch (error) {
           console.error('Error exacto al buscar enrollment:', error.message);
         }
@@ -151,7 +147,7 @@ export class StudentsController {
     @Param('id', ParseUUIDPipe) id: string,
     @Query('careerId') careerId: string,
   ): Promise<ResponseHttpInterface> {
-    const serviceResponse = await this.enrollmentsService.findEnrollmentByStudent(id, careerId);
+    const serviceResponse = await this.enrollmentsService.findEnrollmentByStudent(id);
 
     return {
       data: serviceResponse,

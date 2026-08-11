@@ -11,17 +11,14 @@ export class PdfController {
 
   @PublicRoute()
   @Header('Content-Type', 'application/pdf')
-  @Get('inactivation')
-  async generateInactivation(
-    @Res() response: Response,
-    @Query('cadastreId', ParseUUIDPipe) cadastreId: string,
-  ) {
-    const pdfDoc: PDFKit.PDFDocument = (await this.pdfService.generateInactivation({
+  @Get('registration')
+  async generateRegistration(@Res() response: Response, @Query('studentId') studentId: string) {
+    const pdfDoc: PDFKit.PDFDocument = (await this.pdfService.generateRegistration({
       type: 'pdf',
-      id: cadastreId,
+      studentId: studentId,
     })) as PDFKit.PDFDocument;
 
-    pdfDoc.info.Title = 'Users Report';
+    pdfDoc.info.Title = 'Registration Report';
     pdfDoc.pipe(response);
     pdfDoc.end();
   }

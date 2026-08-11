@@ -365,9 +365,10 @@ export class EnrollmentsService {
     return type;
   }
 
-  async findEnrollmentByStudent(studentId: string, careerId: string): Promise<EnrollmentEntity> {
+  async findEnrollmentByStudent(studentId: string): Promise<EnrollmentEntity> {
+    console.log('entor al servicio enroll');
     const openSchoolPeriod = await this.schoolPeriodsService.findOpenSchoolPeriod();
-    // console.log('servicio');
+    console.log('schoolPeriod: ', openSchoolPeriod);
 
     const enrollment = await this.repository.findOne({
       relations: {
@@ -375,6 +376,8 @@ export class EnrollmentsService {
         parallel: true,
         workday: true,
         schoolPeriod: true,
+        career: true,
+        enrollmentDetails: { subject: true },
         enrollmentStates: {
           state: true,
         },
@@ -382,9 +385,9 @@ export class EnrollmentsService {
           state: true,
         },
       },
-      where: { studentId, careerId, schoolPeriodId: openSchoolPeriod.id },
+      where: { studentId, schoolPeriodId: openSchoolPeriod.id },
     });
-    // console.log('consulta enrollment: ', enrollment);
+    console.log('consulta enrollment: ', enrollment);
 
     if (!enrollment) {
       throw new NotFoundException('La informacion no se encontro');
