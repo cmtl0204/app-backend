@@ -83,14 +83,12 @@ export class StudentsController {
         title: 'Borrador',
       };
     } catch (error) {
-      // Si explota el studentService, caerá aquí
-      console.error('Error crítico al obtener el perfil del estudiante:', error);
       throw new InternalServerErrorException(
         'Error al recuperar los datos principales del borrador',
       );
     }
   }
-  //personal-data-form y user-data-form fornt pantalla 1 todo
+
   @Patch(':id/personal-information')
   // @Roles(RoleEnum.student)
   @PublicRoute()
@@ -107,7 +105,7 @@ export class StudentsController {
       title: `Actualizado`,
     };
   }
-  //origin-place-form
+
   @Patch(':id/origin-place')
   @PublicRoute()
   @HttpCode(HttpStatus.CREATED)
@@ -123,7 +121,7 @@ export class StudentsController {
       title: `Actualizado`,
     };
   }
-  //residence-place-form
+
   @Patch(':id/residence-place')
   @PublicRoute()
   @HttpCode(HttpStatus.CREATED)
@@ -139,7 +137,7 @@ export class StudentsController {
       title: `Actualizado`,
     };
   }
-  //Trae el estado de la solicitud
+
   @Get(':id/enrollments')
   @PublicRoute()
   @HttpCode(HttpStatus.OK)

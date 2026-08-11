@@ -12,7 +12,7 @@ import { GetAvailableSubjectsDto } from '../dto/enrollments/get-available-subjec
 @Controller('core/student/enrollments')
 export class EnrollmentsController {
   constructor(private readonly enrollmentsService: EnrollmentsService) {}
-  //application front patalla 2
+
   @ApiOperation({ summary: 'Send Registration' })
   // @PublicRoute()
   // @Roles(RoleEnum.student)
@@ -33,7 +33,7 @@ export class EnrollmentsController {
       title: 'Registro',
     };
   }
-  //application doc /attachment front pantalla 3
+
   @ApiOperation({ summary: 'Send Request' })
   @Post(':id/send-request')
   @PublicRoute()

@@ -21,6 +21,9 @@ export class PdfSql {
       relations: {
         student: { user: true },
         career: true,
+        workday: true,
+        parallel: true,
+        schoolPeriod: true,
         academicPeriod: true,
         enrollmentDetails: {
           subject: true,
@@ -33,7 +36,6 @@ export class PdfSql {
         createdAt: 'DESC',
       },
     });
-    console.log('sqlpdf', enrollments);
     const latestEnrollment = enrollments[0];
 
     if (!latestEnrollment) {
@@ -58,7 +60,6 @@ export class PdfSql {
         `No se puede generar el reporte. La matrícula más reciente no está en estado "registered". Estado actual: "${currentState.code}".`,
       );
     }
-    console.log('final enrollment: ', latestEnrollment);
     return {
       registration: latestEnrollment,
     };

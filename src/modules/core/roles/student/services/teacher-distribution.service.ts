@@ -24,7 +24,6 @@ export class TeacherDistributionService {
         },
       },
     });
-    console.log('teacherD: ', response);
     return response;
   }
 }

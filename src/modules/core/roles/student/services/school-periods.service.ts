@@ -26,7 +26,7 @@ export class SchoolPeriodsService {
       },
     };
   }
-  //usar
+
   async findOpenSchoolPeriod(): Promise<SchoolPeriodEntity> {
     const entity = await this.repository.findOne({
       where: {

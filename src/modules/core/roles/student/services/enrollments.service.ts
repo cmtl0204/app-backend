@@ -130,18 +130,7 @@ export class EnrollmentsService {
         enrollment.workdayId,
         enrollment.schoolPeriodId,
       );
-      console.log({
-        subjectId: item.subject.id,
-        parallelId: enrollment.parallelId,
-        workdayId: enrollment.workdayId,
-        schoolPeriodId: enrollment.schoolPeriodId,
-        capacity: teacherDistribution.capacity,
-        enrolledCount,
-      });
-      console.log(
-        'comparasion:',
-        teacherDistribution.capacity !== null && enrolledCount >= teacherDistribution.capacity,
-      );
+
       if (teacherDistribution.capacity !== null && enrolledCount >= teacherDistribution.capacity) {
         throw new BadRequestException('No existen cupos disponibles para la materia solicitada.');
       }
@@ -180,10 +169,6 @@ export class EnrollmentsService {
         enrollmentDetail,
       );
 
-      // Imprimimos a ver qué tiene adentro
-      console.log('Objeto creado:', enrollmentDetailCreated);
-
-      // Si viene vacío (undefined), lanzamos un error claro
       if (!enrollmentDetailCreated) {
         throw new Error('EL ERROR ESTÁ AQUÍ: enrollmentDetailsService.create devolvió undefined.');
       }
@@ -267,8 +252,6 @@ export class EnrollmentsService {
     return enrollment;
   }
 
-  // Mantenemos este método por si lo usas en otro lado de la app,
-  // aunque ya no lo usamos en sendRegistration para la validación de cupos.
   async findTotalEnrollments(
     enrollmentId: string,
     careerId: string,
@@ -413,7 +396,6 @@ export class EnrollmentsService {
         },
       },
     });
-    console.log('consulta', enrollments);
     const enrollmentDetails: EnrollmentDetailEntity[] = [];
 
     for (const item of enrollments) {
@@ -521,12 +503,7 @@ COUNT(
 
         .having(`${occupiedCount} < distribution.capacity`);
 
-      console.log(query.getSql());
-      console.log(query.getParameters());
-
       const subjects = await query.getRawMany();
-
-      console.log(subjects);
 
       return {
         data: subjects,

@@ -22,9 +22,6 @@ export class StudentsService {
     private readonly residenceAddressesService: ResidenceAddressesService,
   ) {}
 
-  //usar
-  //revisar que las entidades permitan o no null para los campos con datos string y number
-  //validar los campos en el dto
   async updatePersonalInformation(id: string, payload: UpdateStudentDto): Promise<StudentEntity> {
     const student = await this.repository.findOne({
       relations: { informationStudent: true, user: true },
@@ -35,7 +32,6 @@ export class StudentsService {
       throw new NotFoundException('Estudiante no encontrado');
     }
     if (payload.user) {
-      // 1. Actualizar User
       Object.assign(student.user, {
         identificationTypeId: payload.user.identificationType?.id,
         identification: payload.user.identification,
@@ -56,7 +52,6 @@ export class StudentsService {
       await this.updateUser(student.userId, student.user);
     }
     if (payload.informationStudent) {
-      // 2. Actualizar InformationStudent
       const info = payload.informationStudent;
 
       Object.assign(student.informationStudent, {
@@ -102,18 +97,10 @@ export class StudentsService {
         // Enfermedad Catastrófica
         isCatastrophicIllness: info.isCatastrophicIllness,
         catastrophicIllness: info.isCatastrophicIllness ? info.catastrophicIllness : null,
-        //en information data es obligatorio y en user el ethnicOrigin tambien
-        indigenousNationalityId: info.indigenousNationality.id,
+
+        indigenousNationalityId: info.indigenousNationality ? info.indigenousNationality.id : null,
         townId: info.town.id,
       });
-
-      // Validaciones cruzadas (Dependen de un objeto externo "user")
-      // OJO: usar null en lugar de '' para campos UUID
-      // const hasEthnicCode = payload.user.ethnicOrigin?.code;
-      // student.informationStudent.indigenousNationalityId = hasEthnicCode
-      //   ? info.indigenousNationality?.id || null
-      //   : null;
-      // student.informationStudent.townId = hasEthnicCode ? info.town?.id || null : null;
 
       await this.informationStudentsService.update(
         student.informationStudent.id,
@@ -122,7 +109,6 @@ export class StudentsService {
     }
     return student;
   }
-  //usar falta la relacion en userEntity con originAddress
 
   async updateOriginPlace(id: string, payload: UpdateStudentDto): Promise<StudentEntity> {
     const student = await this.repository.findOne({
@@ -171,7 +157,6 @@ export class StudentsService {
 
     return student;
   }
-  //usar falta la relacion en userEntity con originAddress
 
   async updateResidencePlace(id: string, payload: UpdateStudentDto): Promise<StudentEntity> {
     const student = await this.repository.findOne({
