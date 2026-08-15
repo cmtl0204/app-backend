@@ -19,7 +19,7 @@ export class PdfService {
   }: {
     type?: string;
     studentId: string;
-  }): Promise<PDFKit.PDFDocument | Buffer> {
+  }): Promise<Buffer> {
     const data: any = await this.pdfSql.findLatestRegistrationByStudent(studentId);
 
     try {

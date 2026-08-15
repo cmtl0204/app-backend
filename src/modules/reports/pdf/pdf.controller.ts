@@ -13,16 +13,15 @@ export class PdfController {
   @Header('Content-Type', 'application/pdf')
   @Get('registration')
   async generateRegistration(@Res() response: Response, @Query('studentId') studentId: string) {
-    const pdf = await this.pdfService.generateRegistration({
+    const pdfBuffer = await this.pdfService.generateRegistration({
       type: 'pdf',
       studentId,
     });
 
-    const pdfStream = await pdf.getStream();
-
     response.setHeader('Content-Type', 'application/pdf');
     response.setHeader('Content-Disposition', 'inline; filename="registration-report.pdf"');
+    response.setHeader('Content-Length', pdfBuffer.length);
 
-    pdfStream.pipe(response);
+    response.end(pdfBuffer);
   }
 }
