@@ -4,7 +4,7 @@ services:
       context: ..
       dockerfile: devops/Dockerfile
 
-    container_name: aap-backend
+    container_name: app-backend
 
     restart: unless-stopped
 
