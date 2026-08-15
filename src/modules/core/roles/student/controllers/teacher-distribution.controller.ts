@@ -10,7 +10,6 @@ export class TeacherDistributioNController {
   constructor(private readonly teacherDistributionService: TeacherDistributionService) {}
 
   @Get('/:schoolPeriodId')
-  @PublicRoute()
   @ApiOperation({ summary: 'Obtiene lod datos de teacher distribution con relaciones' })
   async findTeacherDisteibution(@Param('schoolPeriodId') schoolPeriodId: string) {
     const teacherDistribution =

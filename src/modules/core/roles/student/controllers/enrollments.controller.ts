@@ -8,21 +8,19 @@ import { UpdateEnrollmentDto } from '../dto/enrollments/update-enrollment.dto';
 import { RoleEnum } from '@auth/enums';
 import { GetAvailableSubjectsDto } from '../dto/enrollments/get-available-subjects.dto';
 @ApiTags('Enrollments')
-// @Auth()
+@Auth()
 @Controller('core/student/enrollments')
 export class EnrollmentsController {
   constructor(private readonly enrollmentsService: EnrollmentsService) {}
 
   @ApiOperation({ summary: 'Send Registration' })
-  // @PublicRoute()
-  // @Roles(RoleEnum.student)
+  @Roles(RoleEnum.student)
   @Post('send-registration')
   @HttpCode(HttpStatus.CREATED)
   async sendRegistration(
     @User() user: UserEntity,
     @Body() payload: any, //estaba any
   ): Promise<ResponseHttpInterface> {
-    console.log('ENTRÓ AL CONTROLADOR');
     console.dir(payload, { depth: null });
 
     const serviceResponse = await this.enrollmentsService.sendRegistration(user.id, payload);
@@ -36,8 +34,7 @@ export class EnrollmentsController {
 
   @ApiOperation({ summary: 'Send Request' })
   @Post(':id/send-request')
-  @PublicRoute()
-  // @Roles(RoleEnum.student)
+  @Roles(RoleEnum.student)
   @HttpCode(HttpStatus.CREATED)
   async sendRequest(
     @User() user: UserEntity,

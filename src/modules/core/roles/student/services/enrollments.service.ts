@@ -44,7 +44,6 @@ export class EnrollmentsService {
   ) {}
 
   async sendRegistration(userId: string, payload: EnrollmentDto): Promise<EnrollmentEntity> {
-    console.log('ENTRÓ AL SERVICIO');
 
     if (!payload.student) throw new Error('payload.student es undefined');
     if (!payload.career) throw new Error('payload.career es undefined');
@@ -105,7 +104,7 @@ export class EnrollmentsService {
     if (enrollment.enrollmentDetails?.length) {
       await this.enrollmentDetailsService.removeAll(enrollment.enrollmentDetails);
     }
-
+  
     for (const item of payload.enrollmentDetails) {
       if (!item.subject) {
         throw new Error('item.subject es undefined');
@@ -301,14 +300,10 @@ export class EnrollmentsService {
   }
 
   async calculateEnrollmentDetailNumber(studentId: string, subjectId: string): Promise<number> {
-    console.log('llego a calculateEnrollmentDetailNumber');
-    console.log('data:', studentId, subjectId);
-    // CORRECCIÓN: Ahora enrollmentDetailsService.calculateEnrollmentDetailNumber retorna un number directamente (gracias al .count() que agregamos)
     const count = await this.enrollmentDetailsService.calculateEnrollmentDetailNumber(
       studentId,
       subjectId,
     );
-    console.log('resultdo count', count);
     return count;
   }
 
@@ -350,9 +345,7 @@ export class EnrollmentsService {
   }
 
   async findEnrollmentByStudent(studentId: string): Promise<EnrollmentEntity> {
-    console.log('entor al servicio enroll');
     const openSchoolPeriod = await this.schoolPeriodsService.findOpenSchoolPeriod();
-    console.log('schoolPeriod: ', openSchoolPeriod);
 
     const enrollment = await this.repository.findOne({
       relations: {
@@ -371,8 +364,7 @@ export class EnrollmentsService {
       },
       where: { studentId, schoolPeriodId: openSchoolPeriod.id },
     });
-    console.log('consulta enrollment: ', enrollment);
-
+console.log('enrollmentDetails: ', enrollment?.enrollmentDetails)
     if (!enrollment) {
       throw new NotFoundException('La informacion no se encontro');
     }

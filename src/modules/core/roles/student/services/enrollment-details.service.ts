@@ -81,7 +81,6 @@ export class EnrollmentDetailsService {
     return await this.repository.softRemove(payload);
   }
 
-  // CORRECCIÓN: Se cambió .find() por .count() y se tipó el retorno
   async calculateEnrollmentDetailNumber(studentId: string, subjectId: string): Promise<number> {
     const catalogues = await this.cataloguesService.findCache();
 
@@ -96,8 +95,6 @@ export class EnrollmentDetailsService {
         catalogue.code === 'r' &&
         catalogue.type === CatalogueTypeEnum.enrollmentDetailsEnrollmentsAcademicState,
     );
-    console.log('failed', failed);
-    // Retorna el total de veces (número) que ha perdido la materia
     return await this.repository.count({
       where: {
         academicStateId: failed!.id,

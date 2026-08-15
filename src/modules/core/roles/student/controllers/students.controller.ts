@@ -26,7 +26,7 @@ import {
 import { LocationsService } from '../services/locations.service';
 
 @ApiTags('Students')
-// @Auth()
+@Auth()
 @Controller('core/student/students')
 export class StudentsController {
   constructor(
@@ -36,9 +36,7 @@ export class StudentsController {
   ) {}
 
   @ApiOperation({ summary: 'Obtener estado actual de matrícula para el formulario' })
-  // @Auth()
-  // @Roles(RoleEnum.student)
-  // @PublicRoute()
+  @Roles(RoleEnum.student)
   @Get('current-draft')
   async getCurrentDraft(@User() user: UserEntity): Promise<ResponseHttpInterface> {
     try {
@@ -61,9 +59,6 @@ export class StudentsController {
       let enrollment: EnrollmentEntity | null = null;
       if (studentInfo) {
         try {
-          console.log('--- DEPURANDO DRAFT ---');
-          console.log('Student ID:', studentInfo?.id);
-          console.log('Career ID:', studentInfo?.informationStudent?.careerId);
           enrollment = await this.enrollmentsService.findEnrollmentByStudent(studentInfo.id);
         } catch (error) {
           console.error('Error exacto al buscar enrollment:', error.message);
@@ -90,8 +85,7 @@ export class StudentsController {
   }
 
   @Patch(':id/personal-information')
-  // @Roles(RoleEnum.student)
-  @PublicRoute()
+  @Roles(RoleEnum.student)
   @HttpCode(HttpStatus.CREATED)
   async updatePersonalInformation(
     @Param('id', ParseUUIDPipe) id: string,
@@ -138,24 +132,7 @@ export class StudentsController {
     };
   }
 
-  @Get(':id/enrollments')
-  @PublicRoute()
-  @HttpCode(HttpStatus.OK)
-  async findEnrollmentByStudent(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Query('careerId') careerId: string,
-  ): Promise<ResponseHttpInterface> {
-    const serviceResponse = await this.enrollmentsService.findEnrollmentByStudent(id);
-
-    return {
-      data: serviceResponse,
-      message: `Success`,
-      title: `GET`,
-    };
-  }
-
   @Get('/:id/enrollment-details')
-  @PublicRoute()
   @HttpCode(HttpStatus.OK)
   async findEnrollmentsDetailsByStudent(
     @Param('id', ParseUUIDPipe) id: string,
