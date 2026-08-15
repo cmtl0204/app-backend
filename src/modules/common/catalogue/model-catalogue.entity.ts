@@ -18,7 +18,7 @@ export class ModelCatalogueEntity {
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamptz',
-    default: () => 'CURRENT_timestampP',
+    default: () => 'CURRENT_timestamp',
     comment: 'Fecha de creacion del registro',
   })
   createdAt: Date;
@@ -26,7 +26,7 @@ export class ModelCatalogueEntity {
   @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamptz',
-    default: () => 'CURRENT_timestampP',
+    default: () => 'CURRENT_timestamp',
     comment: 'Fecha de actualizacion de la ultima actualizacion del registro',
   })
   updatedAt: Date;

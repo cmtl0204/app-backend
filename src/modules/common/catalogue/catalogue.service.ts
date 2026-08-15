@@ -144,7 +144,16 @@ export class CataloguesService {
 
     // Si no hay cache, consultar la BD
     const catalogues = await this.repository.find({
-      select: ['id', 'code', 'name', 'type', 'enabled', 'parentId', 'acronym', 'required'],
+      select: {
+        id: true,
+        code: true,
+        name: true,
+        type: true,
+        enabled: true,
+        parentId: true,
+        acronym: true,
+        required: true,
+      },
       order: {
         type: 'asc',
         sort: 'asc',
@@ -160,7 +169,16 @@ export class CataloguesService {
 
   async loadCache(): Promise<boolean> {
     const catalogues = await this.repository.find({
-      select: ['id', 'code', 'name', 'type', 'enabled', 'parentId', 'acronym', 'required'],
+      select: {
+        id: true,
+        code: true,
+        name: true,
+        type: true,
+        enabled: true,
+        parentId: true,
+        acronym: true,
+        required: true,
+      },
       order: { type: 'asc', sort: 'asc', name: 'asc' },
     });
 

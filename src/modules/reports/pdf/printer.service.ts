@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import PdfPrinter from 'pdfmake';
+import pdfmake from 'pdfmake';
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { join } from 'path';
 
@@ -14,22 +14,19 @@ const fonts = {
 
 @Injectable()
 export class PrinterService {
-  private readonly printer = new PdfPrinter(fonts);
+  constructor() {
+    pdfmake.addFonts(fonts);
+  }
 
-  createPdf(docDefinition: TDocumentDefinitions): PDFKit.PDFDocument {
-    return this.printer.createPdfKitDocument(docDefinition);
+  createPdf(docDefinition: TDocumentDefinitions) {
+    return pdfmake.createPdf(docDefinition);
   }
 
   async createPdfBuffer(docDefinition: TDocumentDefinitions): Promise<Buffer> {
-    const pdfDoc = this.printer.createPdfKitDocument(docDefinition);
+    return pdfmake.createPdf(docDefinition).getBuffer();
+  }
 
-    const chunks: Uint8Array[] = [];
-
-    return new Promise<Buffer>((resolve, reject) => {
-      pdfDoc.on('data', (chunk) => chunks.push(chunk));
-      pdfDoc.on('end', () => resolve(Buffer.concat(chunks)));
-      pdfDoc.on('error', (err) => reject(err));
-      pdfDoc.end();
-    });
+  async createPdfStream(docDefinition: TDocumentDefinitions) {
+    return pdfmake.createPdf(docDefinition).getStream();
   }
 }

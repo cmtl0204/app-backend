@@ -24,14 +24,14 @@ export class TeacherEntity {
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamp',
-    default: () => 'CURRENT_timestampP',
+    default: () => 'CURRENT_timestamp',
   })
   createdAt: Date;
 
   @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamp',
-    default: () => 'CURRENT_timestampP',
+    default: () => 'CURRENT_timestamp',
   })
   updatedAt: Date;
 

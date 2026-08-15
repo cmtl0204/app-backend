@@ -14,7 +14,7 @@ export class SchoolPeriodsService {
 
   async catalogue(): Promise<ServiceResponseHttpModel> {
     const response = await this.repository.findAndCount({
-      relations: ['state'],
+      relations: { state: true },
       take: 1000,
     });
 

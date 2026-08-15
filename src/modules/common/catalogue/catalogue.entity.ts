@@ -9,7 +9,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ModelCatalogueEntity } from '@modules/common/catalogue/model-catalogue.entity';
 
 @Entity('catalogues', { schema: 'common' })
 export class CatalogueEntity {
@@ -19,7 +18,7 @@ export class CatalogueEntity {
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamptz',
-    default: () => 'CURRENT_timestampP',
+    default: () => 'CURRENT_timestamp',
     comment: 'Fecha de creacion del registro',
   })
   createdAt: Date;
@@ -27,7 +26,7 @@ export class CatalogueEntity {
   @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamptz',
-    default: () => 'CURRENT_timestampP',
+    default: () => 'CURRENT_timestamp',
     comment: 'Fecha de actualizacion de la ultima actualizacion del registro',
   })
   updatedAt: Date;

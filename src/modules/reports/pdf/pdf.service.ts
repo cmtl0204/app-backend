@@ -25,7 +25,7 @@ export class PdfService {
     try {
       if (type === 'buffer')
         return this.printerService.createPdfBuffer(registrationApplicationReport(data));
-      else return this.printerService.createPdf(registrationApplicationReport(data));
+      else return await this.printerService.createPdfBuffer(registrationApplicationReport(data));
     } catch (error) {
       console.log(error);
       throw new Error();

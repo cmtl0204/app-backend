@@ -29,7 +29,7 @@ export class CareerEntity {
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamp',
-    default: () => 'CURRENT_timestampP',
+    default: () => 'CURRENT_timestamp',
     comment: 'Fecha de creacion de la carrera',
   })
   createdAt: Date;
@@ -37,7 +37,7 @@ export class CareerEntity {
   @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamp',
-    default: () => 'CURRENT_timestampP',
+    default: () => 'CURRENT_timestamp',
     comment: 'Fecha de actualizacion de la carrera',
   })
   updatedAt: Date;

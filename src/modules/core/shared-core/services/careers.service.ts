@@ -44,7 +44,12 @@ export class CareersService {
 
   async findOne(id: string): Promise<CareerEntity> {
     const entity = await this.repository.findOne({
-      relations: ['institution', 'modality', 'state', 'type'],
+      relations: {
+        institution: true,
+        modality: true,
+        state: true,
+        type: true,
+      },
       where: {
         id,
       },
