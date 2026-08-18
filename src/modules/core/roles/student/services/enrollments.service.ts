@@ -364,7 +364,6 @@ export class EnrollmentsService {
       },
       where: { studentId, schoolPeriodId: openSchoolPeriod.id },
     });
-console.log('enrollmentDetails: ', enrollment?.enrollmentDetails)
     if (!enrollment) {
       throw new NotFoundException('La informacion no se encontro');
     }
